@@ -35,10 +35,10 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen bg-red-900 text-white flex items-center justify-center">
-          <div className="max-w-md text-center p-6">
-            <h1 className="text-2xl font-bold mb-4">Something went wrong</h1>
-            <p className="mb-4 text-red-200">
+        <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)'}}>
+          <div className="max-w-md text-center p-6" style={{backgroundColor: 'var(--bg-primary)'}}>
+            <h1 className="text-2xl font-bold mb-4" style={{color: 'var(--text-primary)'}}>Something went wrong</h1>
+            <p className="mb-4" style={{color: 'var(--text-secondary)'}}>
               An error occurred while rendering this component.
             </p>
             {this.state.error && (
@@ -62,7 +62,8 @@ class ErrorBoundary extends Component<Props, State> {
                 this.setState({ hasError: false, error: undefined, errorInfo: undefined });
                 window.location.reload();
               }}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded transition-colors"
+              className="px-4 py-2 rounded transition-colors"
+              style={{backgroundColor: 'var(--accent-color)', color: 'var(--text-primary)'}}
             >
               Reload Page
             </button>

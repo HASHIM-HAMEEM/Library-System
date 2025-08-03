@@ -19,25 +19,40 @@ const getInitialTheme = (): Theme => {
   return 'light';
 };
 
-export const useThemeStore = create<ThemeState>((set) => ({
-  theme: getInitialTheme(),
+// Apply theme class to document element
+const applyTheme = (theme: Theme) => {
+  if (typeof window !== 'undefined') {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.classList.toggle('light', theme === 'light');
+  }
+};
 
-  toggleTheme: () =>
-    set((state) => {
-      const next: Theme = state.theme === 'dark' ? 'light' : 'dark';
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('theme', next);
-        document.documentElement.classList.toggle('dark', next === 'dark');
-      }
-      return { theme: next };
-    }),
+export const useThemeStore = create<ThemeState>((set) => {
+  const initialTheme = getInitialTheme();
+  
+  // Apply initial theme
+  applyTheme(initialTheme);
+  
+  return {
+    theme: initialTheme,
 
-  setTheme: (theme: Theme) =>
-    set(() => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('theme', theme);
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-      }
-      return { theme };
-    }),
-}));
+    toggleTheme: () =>
+      set((state) => {
+        const next: Theme = state.theme === 'dark' ? 'light' : 'dark';
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('theme', next);
+          applyTheme(next);
+        }
+        return { theme: next };
+      }),
+
+    setTheme: (theme: Theme) =>
+      set(() => {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('theme', theme);
+          applyTheme(theme);
+        }
+        return { theme };
+      }),
+  };
+});

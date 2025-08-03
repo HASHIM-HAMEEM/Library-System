@@ -35,6 +35,28 @@
   --sidebar-border: #3c3c3c;
 }
 
+/* Light Theme Variables */
+html.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --bg-hover: #dee2e6;
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-muted: #6c757d;
+  --accent-primary: #212529;
+  --accent-secondary: #495057;
+  --accent-hover: #343a40;
+  --border-color: #dee2e6;
+  --border-muted: #e9ecef;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --error-color: #dc3545;
+  --sidebar-bg: #f8f9fa;
+  --sidebar-border: #dee2e6;
+}
+
 * {
   margin: 0;
   padding: 0;

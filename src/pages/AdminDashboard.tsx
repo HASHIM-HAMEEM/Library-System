@@ -155,9 +155,9 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
   ]);
 
   const [subscriptionBreakdown, setSubscriptionBreakdown] = useState<SubscriptionBreakdown[]>([
-    { type: 'Basic', count: 45, revenue: 2250, color: '#3B82F6' },
-    { type: 'Pro', count: 28, revenue: 4200, color: '#10B981' },
-    { type: 'Premium', count: 12, revenue: 3600, color: '#F59E0B' }
+    { type: 'Basic', count: 45, revenue: 2250, color: 'var(--accent-color)' },
+    { type: 'Pro', count: 28, revenue: 4200, color: 'var(--success-color)' },
+    { type: 'Premium', count: 12, revenue: 3600, color: 'var(--warning-color)' }
   ]);
 
   const [systemAlerts, setSystemAlerts] = useState<SystemAlert[]>([
@@ -482,7 +482,7 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
       }
     } catch (error) {
       console.error('🚨 AdminDashboard: Error in renderActiveScreen:', error);
-      return <div className="text-red-500 p-4">Error rendering screen: {error.message}</div>;
+      return <div className="p-4" style={{color: 'var(--error-color)'}}>Error rendering screen: {error.message}</div>;
     }
   };
 
@@ -497,18 +497,18 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
     if (!screenContent) {
       console.warn('🔍 AdminDashboard: No screen content, showing fallback');
       return (
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)'}}>
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Dashboard Loading...</h1>
             <p className="mb-4">Active View: {activeView}</p>
-            <p className="text-sm text-gray-400">Debug: Screen content is null/empty</p>
+            <p className="text-sm" style={{color: 'var(--text-muted)'}}>Debug: Screen content is null/empty</p>
           </div>
         </div>
       );
     }
     
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col">
+      <div className="min-h-screen flex flex-col" style={{backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)'}}>
         <div className="flex flex-1 relative">
           {/* Sidebar */}
           <Sidebar 
@@ -543,9 +543,9 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
         </div>
         
         {/* Global Footer */}
-        <div className="bg-black py-4">
+        <div className="py-4" style={{backgroundColor: 'var(--sidebar-bg)'}}>
           <div className="text-center">
-            <div className="text-xs text-gray-500">scnz.</div>
+            <div className="text-xs" style={{color: 'var(--text-muted)'}}>scnz.</div>
           </div>
         </div>
         
@@ -558,14 +558,21 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
   } catch (error) {
     console.error('🚨 AdminDashboard: Critical error in main render:', error);
     return (
-      <div className="min-h-screen bg-red-900 text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: 'var(--error-color)', color: 'var(--text-primary)'}}>
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Dashboard Error</h1>
           <p className="mb-4">Something went wrong while loading the dashboard.</p>
-          <p className="text-sm text-red-300">{error.message}</p>
+          <p className="text-sm" style={{color: 'var(--text-muted)'}}>{error.message}</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="mt-4 px-4 py-2 bg-red-600 rounded hover:bg-red-700"
+            className="mt-4 px-4 py-2 rounded transition-colors"
+            style={{backgroundColor: 'var(--accent-primary)', color: 'var(--bg-primary)'}}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--accent-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--accent-primary)';
+            }}
           >
             Reload Page
           </button>

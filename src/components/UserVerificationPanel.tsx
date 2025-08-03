@@ -86,7 +86,7 @@ const UserVerificationPanel: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="rounded-lg shadow-md p-6" style={{backgroundColor: 'var(--bg-primary)'}}>
         <div className="flex items-center justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
           <span className="ml-2 text-gray-600">Loading pending verifications...</span>
@@ -99,7 +99,7 @@ const UserVerificationPanel: React.FC = () => {
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex items-center mb-6">
         <Clock className="h-6 w-6 text-orange-500 mr-2" />
-        <h2 className="text-xl font-semibold text-gray-800">Pending Verifications</h2>
+        <h2 className="text-xl font-semibold" style={{color: 'var(--text-primary)'}}>Pending Verifications</h2>
         <span className="ml-2 bg-orange-100 text-orange-800 text-sm font-medium px-2.5 py-0.5 rounded-full">
           {pendingUsers.length}
         </span>
@@ -108,8 +108,8 @@ const UserVerificationPanel: React.FC = () => {
       {pendingUsers.length === 0 ? (
         <div className="text-center py-8">
           <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-          <p className="text-gray-600">No pending verifications</p>
-          <p className="text-sm text-gray-500 mt-1">All users have been processed</p>
+          <p style={{color: 'var(--text-secondary)'}}>No pending verifications</p>
+          <p className="text-sm mt-1" style={{color: 'var(--text-secondary)'}}>All users have been processed</p>
         </div>
       ) : (
         <div className="space-y-4">

@@ -149,6 +149,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         // Set default subscription when verifying
         updateData.subscription_status = 'active';
         updateData.subscription_start = new Date().toISOString();
+        updateData.is_active = true;
         
         // Set subscription end to 1 year from now
         const subscriptionEnd = new Date();

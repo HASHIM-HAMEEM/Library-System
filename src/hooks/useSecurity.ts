@@ -65,11 +65,11 @@ export const useSecurity = () => {
     } catch (error: any) {
       logSecurityEvent('api_request_error', {
         error: error.message,
-        userId: user?.id,
+        userId: user?.uid,
       });
       throw error;
     }
-  }, [updateActivity, checkRateLimit, user?.id]);
+  }, [updateActivity, checkRateLimit, user?.uid]);
 
   // Setup security monitoring
   useEffect(() => {
@@ -83,7 +83,7 @@ export const useSecurity = () => {
     }
 
     // Store user ID for stable reference
-    const userId = user.id;
+    const userId = user.uid;
 
     // Initialize last activity from localStorage
     const storedActivity = localStorage.getItem('admin_last_activity');
@@ -178,7 +178,7 @@ export const useSecurity = () => {
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
+  }, [user?.uid]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -195,7 +195,7 @@ export const useSecurity = () => {
 
     if (!validateSession()) {
       logSecurityEvent('session_integrity_violation', {
-        userId: user.id,
+        userId: user.uid,
       });
       
       toast.error('Session security violation detected. Please log in again.');

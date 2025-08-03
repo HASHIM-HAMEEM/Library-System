@@ -118,7 +118,7 @@ const QRGenerator: React.FC = () => {
       if (!qrElement) return;
 
       const canvas = await html2canvas(qrElement, {
-        backgroundColor: '#ffffff',
+        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-primary').trim(),
         scale: 2
       });
 
@@ -185,12 +185,22 @@ const QRGenerator: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-[#18181b] rounded-lg p-6">
+      <div className="rounded-lg p-6" style={{backgroundColor: 'var(--bg-primary)'}}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-white">QR Code Generator</h2>
+          <h2 className="text-xl font-semibold" style={{color: 'var(--text-primary)'}}>QR Code Generator</h2>
           <button
             onClick={fetchUsers}
-            className="flex items-center space-x-2 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-100 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
+            style={{
+              backgroundColor: 'var(--bg-secondary)',
+              color: 'var(--text-primary)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+            }}
           >
             <RefreshCw className="w-4 h-4" />
             <span>Refresh</span>
@@ -199,20 +209,27 @@ const QRGenerator: React.FC = () => {
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{color: 'var(--text-secondary)'}} />
           <input
             type="text"
             placeholder="Search users by name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-black border border-gray-600 text-white rounded-lg focus:outline-none focus:border-white"
+            className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none"
+            style={{
+              backgroundColor: 'var(--bg-secondary)',
+              border: '1px solid var(--border-color)',
+              color: 'var(--text-primary)'
+            }}
+            onFocus={(e) => e.target.style.borderColor = 'var(--accent-color)'}
+            onBlur={(e) => e.target.style.borderColor = 'var(--border-color)'}
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Users List */}
-        <div className="bg-[#18181b] rounded-lg p-6">
+        <div className="rounded-lg p-6" style={{backgroundColor: 'var(--bg-primary)'}}>
           <h3 className="text-lg font-semibold text-white mb-4">Select User</h3>
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {filteredUsers.length === 0 ? (
@@ -221,20 +238,30 @@ const QRGenerator: React.FC = () => {
               filteredUsers.map((user) => (
                 <div
                   key={user.id}
-                  className={`p-4 rounded-lg border cursor-pointer transition-colors ${
-                    selectedUser?.id === user.id
-                      ? 'border-white bg-gray-800'
-                      : 'border-gray-600 bg-black hover:border-gray-500'
-                  }`}
+                  className="p-4 rounded-lg border cursor-pointer transition-colors"
+                  style={{
+                    backgroundColor: selectedUser?.id === user.id ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                    borderColor: selectedUser?.id === user.id ? 'var(--accent-color)' : 'var(--border-color)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedUser?.id !== user.id) {
+                      e.currentTarget.style.borderColor = 'var(--text-secondary)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedUser?.id !== user.id) {
+                      e.currentTarget.style.borderColor = 'var(--border-color)';
+                    }
+                  }}
                   onClick={() => setSelectedUser(user)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <User className="w-8 h-8 text-gray-400" />
+                      <User className="w-8 h-8" style={{color: 'var(--text-secondary)'}} />
                       <div>
-                        <p className="text-white font-medium">{user.name}</p>
-                        <p className="text-gray-400 text-sm">{user.email}</p>
-                        <p className="text-gray-400 text-xs capitalize">{user.role}</p>
+                        <p className="font-medium" style={{color: 'var(--text-primary)'}}>{user.name}</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>{user.email}</p>
+                        <p className="text-xs capitalize" style={{color: 'var(--text-secondary)'}}>{user.role}</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -245,7 +272,7 @@ const QRGenerator: React.FC = () => {
                       }`}>
                         {isSubscriptionValid(user) ? 'Active' : 'Expired'}
                       </span>
-                      <p className="text-gray-400 text-xs mt-1">
+                      <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>
                         {getSubscriptionStatus(user)}
                       </p>
                     </div>
@@ -260,7 +287,21 @@ const QRGenerator: React.FC = () => {
               <button
                 onClick={() => generateQRCode(selectedUser)}
                 disabled={isGenerating}
-                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-white text-black rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: 'var(--bg-secondary)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isGenerating) {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isGenerating) {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+                  }
+                }}
               >
                 {isGenerating ? (
                   <RefreshCw className="w-4 h-4 animate-spin" />
@@ -274,20 +315,20 @@ const QRGenerator: React.FC = () => {
         </div>
 
         {/* QR Code Display */}
-        <div className="bg-[#18181b] rounded-lg p-6">
+        <div className="rounded-lg p-6" style={{backgroundColor: 'var(--bg-primary)'}}>
           <h3 className="text-lg font-semibold text-white mb-4">Generated QR Code</h3>
           
           {generatedQR ? (
             <div className="space-y-4">
               {/* QR Code */}
-              <div id="qr-code-print" className="bg-white p-6 rounded-lg text-center">
+              <div id="qr-code-print" className="p-6 rounded-lg text-center" style={{backgroundColor: 'var(--bg-primary)'}}>
                 <img
                   src={generatedQR.qrCodeUrl}
                   alt="QR Code"
                   className="mx-auto mb-4"
                   style={{ maxWidth: '300px', width: '100%' }}
                 />
-                <div className="text-black text-sm space-y-1">
+                <div className="text-sm space-y-1" style={{color: 'var(--text-primary)'}}>
                   <p className="font-semibold">{generatedQR.user.name}</p>
                   <p>{generatedQR.user.email}</p>
                   <p className="capitalize">{generatedQR.user.role}</p>
@@ -295,21 +336,21 @@ const QRGenerator: React.FC = () => {
               </div>
 
               {/* User Details */}
-              <div className="bg-black rounded-lg p-4 space-y-2 text-sm">
+              <div className="rounded-lg p-4 space-y-2 text-sm" style={{backgroundColor: 'var(--bg-secondary)'}}>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Name:</span>
-                  <span className="text-white">{generatedQR.user.name}</span>
+                  <span style={{color: 'var(--text-secondary)'}}>Name:</span>
+                  <span style={{color: 'var(--text-primary)'}}>{generatedQR.user.name}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Email:</span>
-                  <span className="text-white">{generatedQR.user.email}</span>
+                  <span style={{color: 'var(--text-secondary)'}}>Email:</span>
+                  <span style={{color: 'var(--text-primary)'}}>{generatedQR.user.email}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Role:</span>
-                  <span className="text-white capitalize">{generatedQR.user.role}</span>
+                  <span style={{color: 'var(--text-secondary)'}}>Role:</span>
+                  <span className="capitalize" style={{color: 'var(--text-primary)'}}>{generatedQR.user.role}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Subscription:</span>
+                  <span style={{color: 'var(--text-secondary)'}}>Subscription:</span>
                   <span className={`${
                     isSubscriptionValid(generatedQR.user) ? 'text-green-400' : 'text-red-400'
                   }`}>
@@ -317,8 +358,8 @@ const QRGenerator: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Generated:</span>
-                  <span className="text-white">
+                  <span style={{color: 'var(--text-secondary)'}}>Generated:</span>
+                  <span style={{color: 'var(--text-primary)'}}>
                     {new Date(generatedQR.generatedAt).toLocaleString()}
                   </span>
                 </div>
@@ -328,14 +369,35 @@ const QRGenerator: React.FC = () => {
               <div className="flex space-x-3">
                 <button
                   onClick={downloadQRCode}
-                  className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: 'var(--bg-secondary)',
+                    color: 'var(--text-primary)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+                  }}
                 >
                   <Download className="w-4 h-4" />
                   <span>Download PNG</span>
                 </button>
                 <button
                   onClick={printQRCode}
-                  className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: 'var(--bg-secondary)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border-color)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+                  }}
                 >
                   <Printer className="w-4 h-4" />
                   <span>Download PDF</span>

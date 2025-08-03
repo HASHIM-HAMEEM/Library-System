@@ -417,7 +417,7 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{borderColor: 'var(--text-primary)'}}></div>
       </div>
     );
   }
@@ -425,11 +425,21 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
   if (!adminProfile) {
     return (
       <div className="text-center py-12">
-        <AlertTriangle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-white mb-2">Failed to load admin profile</h3>
+        <AlertTriangle className="w-12 h-12 mx-auto mb-4" style={{color: 'var(--text-secondary)'}} />
+        <h3 className="text-lg font-medium mb-2" style={{color: 'var(--text-primary)'}}>Failed to load admin profile</h3>
         <button
           onClick={fetchAdminProfile}
-          className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors"
+          className="px-4 py-2 rounded-lg transition-colors"
+          style={{
+            backgroundColor: 'var(--bg-tertiary)',
+            color: 'var(--text-primary)'
+          }}
+          onMouseEnter={(e) => {
+            (e.target as HTMLButtonElement).style.backgroundColor = 'var(--bg-quaternary)';
+          }}
+          onMouseLeave={(e) => {
+            (e.target as HTMLButtonElement).style.backgroundColor = 'var(--bg-tertiary)';
+          }}
         >
           Retry
         </button>
@@ -440,29 +450,29 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
   return (
     <>
       {/* Admin Profile Header */}
-      <div className="p-6 rounded-lg border border-gray-300 mb-6" style={{backgroundColor: '#000000'}}>
+      <div className="p-6 rounded-lg border border-gray-300 mb-6" style={{backgroundColor: 'var(--bg-secondary)'}}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-              <User className="w-8 h-8 text-black" />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{backgroundColor: 'var(--accent-primary)'}}>
+              <User className="w-8 h-8" style={{color: 'var(--text-primary)'}} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">{adminProfile.name}</h2>
-              <p className="text-gray-300">{adminProfile.email}</p>
-              <p className="text-sm text-gray-400">
+              <h2 className="text-xl font-bold" style={{color: 'var(--text-primary)'}}>{adminProfile.name}</h2>
+              <p style={{color: 'var(--text-secondary)'}}>{adminProfile.email}</p>
+              <p className="text-sm" style={{color: 'var(--text-muted)'}}>
                 Last login: {format(adminProfile.lastLogin, 'MMM dd, yyyy HH:mm')}
               </p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-300">Account created</p>
-            <p className="text-white">{format(adminProfile.createdAt, 'MMM dd, yyyy')}</p>
+            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Account created</p>
+            <p style={{color: 'var(--text-primary)'}}>{format(adminProfile.createdAt, 'MMM dd, yyyy')}</p>
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="p-6 rounded-lg border border-gray-300 mb-6" style={{backgroundColor: '#000000'}}>
+      <div className="p-6 rounded-lg border border-gray-300 mb-6" style={{backgroundColor: 'var(--bg-secondary)'}}>
         <div className="flex flex-wrap gap-2">
           {[
             { id: 'profile', label: 'Profile', icon: User },
@@ -476,9 +486,23 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
               onClick={() => setActiveTab(id as any)}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                 activeTab === id
-                  ? 'bg-white text-black'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  ? ''
+                  : ''
               }`}
+              style={{
+                 backgroundColor: activeTab === id ? 'var(--accent-primary)' : 'transparent',
+                 color: activeTab === id ? 'var(--text-primary)' : 'var(--text-secondary)'
+               }}
+               onMouseEnter={(e) => {
+                 if (activeTab !== id) {
+                   (e.target as HTMLButtonElement).style.backgroundColor = 'var(--bg-tertiary)';
+                 }
+               }}
+               onMouseLeave={(e) => {
+                 if (activeTab !== id) {
+                   (e.target as HTMLButtonElement).style.backgroundColor = 'transparent';
+                 }
+               }}
             >
               <Icon className="w-4 h-4" />
               {label}
@@ -488,14 +512,15 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="p-6 rounded-lg border border-gray-300" style={{backgroundColor: '#000000'}}>
+      <div className="p-6 rounded-lg border border-gray-300" style={{backgroundColor: 'var(--bg-secondary)'}}>
         {activeTab === 'profile' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">Profile Information</h3>
+              <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Profile Information</h3>
               <button
                 onClick={() => setEditMode(!editMode)}
-                className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
+                style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
               >
                 <Settings className="w-4 h-4" />
                 {editMode ? 'Cancel' : 'Edit Profile'}
@@ -504,32 +529,32 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Full Name</label>
                 {editMode ? (
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    style={{backgroundColor: '#000000'}}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
+                    style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
                   />
                 ) : (
-                  <p className="text-white">{adminProfile.name}</p>
+                  <p style={{color: 'var(--text-primary)'}}>{adminProfile.name}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Email Address</label>
                 {editMode ? (
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    style={{backgroundColor: '#000000'}}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
+                    style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
                   />
                 ) : (
-                  <p className="text-white">{adminProfile.email}</p>
+                  <p style={{color: 'var(--text-primary)'}}>{adminProfile.email}</p>
                 )}
               </div>
             </div>
@@ -538,13 +563,33 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
               <div className="flex gap-4">
                 <button
                   onClick={handleUpdateProfile}
-                  className="px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+                  className="px-4 py-2 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: 'var(--accent-primary)',
+                    color: 'var(--text-primary)'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-primary)';
+                  }}
                 >
                   Save Changes
                 </button>
                 <button
                   onClick={() => setEditMode(false)}
-                  className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-4 py-2 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: 'var(--bg-tertiary)',
+                    color: 'var(--text-secondary)'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLButtonElement).style.backgroundColor = 'var(--bg-quaternary)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLButtonElement).style.backgroundColor = 'var(--bg-tertiary)';
+                  }}
                 >
                   Cancel
                 </button>
@@ -555,23 +600,24 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
 
         {activeTab === 'credentials' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">Change Password</h3>
+            <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Change Password</h3>
             
             <div className="grid grid-cols-1 gap-6 max-w-md">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Current Password</label>
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Current Password</label>
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={formData.currentPassword}
                     onChange={(e) => setFormData(prev => ({ ...prev, currentPassword: e.target.value }))}
-                    style={{backgroundColor: '#000000'}}
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
+                    style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
+                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-white"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    style={{color: 'var(--text-secondary)'}}
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -579,30 +625,40 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>New Password</label>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.newPassword}
                   onChange={(e) => setFormData(prev => ({ ...prev, newPassword: e.target.value }))}
-                  style={{backgroundColor: '#000000'}}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
+                  style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Confirm New Password</label>
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Confirm New Password</label>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                  style={{backgroundColor: '#000000'}}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
+                  style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
                 />
               </div>
 
               <button
                 onClick={handleChangePassword}
-                className="px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+                className="px-4 py-2 rounded-lg transition-colors"
+                style={{
+                  backgroundColor: 'var(--accent-primary)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLButtonElement).style.backgroundColor = 'var(--bg-quaternary)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLButtonElement).style.backgroundColor = 'var(--bg-tertiary)';
+                }}
               >
                 Change Password
               </button>
@@ -612,24 +668,24 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
 
         {activeTab === 'activity' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">Activity Logs</h3>
+            <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Activity Logs</h3>
             
             <div className="space-y-4">
               {adminProfile.activityLogs.map((log) => (
-                <div key={log.id} className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: '#000000'}}>
+                <div key={log.id} className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: 'var(--bg-tertiary)'}}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className={`w-2 h-2 rounded-full ${
                         log.status === 'success' ? 'bg-green-500' : 'bg-red-500'
                       }`}></div>
                       <div>
-                        <p className="text-white font-medium">{log.action}</p>
-                        <p className="text-gray-300 text-sm">{format(log.timestamp, 'MMM dd, yyyy HH:mm')}</p>
+                        <p className="font-medium" style={{color: 'var(--text-primary)'}}>{log.action}</p>
+                        <p className="text-sm" style={{color: 'var(--text-secondary)'}}>{format(log.timestamp, 'MMM dd, yyyy HH:mm')}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      {log.ipAddress && <p className="text-gray-300 text-sm">{log.ipAddress}</p>}
-                      {log.device && <p className="text-gray-300 text-sm">{log.device}</p>}
+                      {log.ipAddress && <p className="text-sm" style={{color: 'var(--text-secondary)'}}>{log.ipAddress}</p>}
+                      {log.device && <p className="text-sm" style={{color: 'var(--text-secondary)'}}>{log.device}</p>}
                     </div>
                   </div>
                 </div>
@@ -640,15 +696,15 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
 
         {activeTab === 'security' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">Security Settings</h3>
+            <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Security Settings</h3>
             
             <div className="space-y-6">
               {/* 2FA Settings */}
-              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: '#000000'}}>
+              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: 'var(--bg-tertiary)'}}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-white font-medium">Two-Factor Authentication</h4>
-                    <p className="text-gray-300 text-sm">Add an extra layer of security to your account</p>
+                    <h4 className="font-medium" style={{color: 'var(--text-primary)'}}>Two-Factor Authentication</h4>
+                    <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Add an extra layer of security to your account</p>
                   </div>
                   <button
                     onClick={handleToggle2FA}
@@ -666,15 +722,15 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
               </div>
 
               {/* Session Timeout */}
-              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: '#000000'}}>
+              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: 'var(--bg-tertiary)'}}>
                 <div>
-                  <h4 className="text-white font-medium mb-2">Session Timeout</h4>
-                  <p className="text-gray-300 text-sm mb-4">Automatically log out after period of inactivity</p>
+                  <h4 className="font-medium mb-2" style={{color: 'var(--text-primary)'}}>Session Timeout</h4>
+                  <p className="text-sm mb-4" style={{color: 'var(--text-secondary)'}}>Automatically log out after period of inactivity</p>
                   <select
                     value={adminProfile.settings.sessionTimeout}
                     onChange={handleSessionTimeoutChange}
-                    style={{backgroundColor: '#000000'}}
-                    className="px-3 py-2 border border-gray-300 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white"
+                    style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)'}}
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
                   >
                     <option value={15}>15 minutes</option>
                     <option value={30}>30 minutes</option>
@@ -686,15 +742,25 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
               </div>
 
               {/* Logout All Devices */}
-              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: '#000000'}}>
+              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: 'var(--bg-tertiary)'}}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-white font-medium">Active Sessions</h4>
-                    <p className="text-gray-300 text-sm">Sign out from all devices and browsers</p>
+                    <h4 className="font-medium" style={{color: 'var(--text-primary)'}}>Active Sessions</h4>
+                    <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Sign out from all devices and browsers</p>
                   </div>
                   <button
                     onClick={handleLogoutAllDevices}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    className="px-4 py-2 rounded-lg transition-colors"
+                    style={{
+                      backgroundColor: 'var(--error-primary)',
+                      color: 'var(--text-primary)'
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.target as HTMLButtonElement).style.backgroundColor = 'var(--error-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.target as HTMLButtonElement).style.backgroundColor = 'var(--error-primary)';
+                    }}
                   >
                     Logout All Devices
                   </button>
@@ -706,25 +772,45 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
 
         {activeTab === 'backup' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white">Backup & Recovery</h3>
+            <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Backup & Recovery</h3>
             
             <div className="space-y-6">
               {/* Data Export */}
-              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: '#000000'}}>
+              <div className="p-4 rounded-lg border border-gray-300" style={{backgroundColor: 'var(--bg-tertiary)'}}>
                 <div>
-                  <h4 className="text-white font-medium mb-2">Export Data</h4>
-                  <p className="text-gray-300 text-sm mb-4">Download a backup of all system data</p>
+                  <h4 className="font-medium mb-2" style={{color: 'var(--text-primary)'}}>Export Data</h4>
+                  <p className="text-sm mb-4" style={{color: 'var(--text-secondary)'}}>Download a backup of all system data</p>
                   <div className="flex gap-4">
                     <button
                       onClick={() => handleExportData('json')}
-                      className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
+                      style={{
+                        backgroundColor: 'var(--accent-primary)',
+                        color: 'var(--text-primary)'
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-hover)';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-primary)';
+                      }}
                     >
                       <Download className="w-4 h-4" />
                       Export as JSON
                     </button>
                     <button
                       onClick={() => handleExportData('csv')}
-                      className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
+                      style={{
+                        backgroundColor: 'var(--accent-primary)',
+                        color: 'var(--text-primary)'
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-hover)';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-primary)';
+                      }}
                     >
                       <Download className="w-4 h-4" />
                       Export as CSV
@@ -734,13 +820,23 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
               </div>
 
               {/* Emergency Reset */}
-              <div className="p-4 rounded-lg border border-red-400" style={{backgroundColor: '#000000'}}>
+              <div className="p-4 rounded-lg border border-red-400" style={{backgroundColor: 'var(--bg-tertiary)'}}>
                 <div>
                   <h4 className="text-red-400 font-medium mb-2">Emergency Reset</h4>
-                  <p className="text-gray-300 text-sm mb-4">Reset all data except admin credentials. This action cannot be undone.</p>
+                  <p className="text-sm mb-4" style={{color: 'var(--text-secondary)'}}>Reset all data except admin credentials. This action cannot be undone.</p>
                   <button
                     onClick={handleEmergencyReset}
-                    className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
+                    style={{
+                      backgroundColor: 'var(--error-primary)',
+                      color: 'var(--text-primary)'
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.target as HTMLButtonElement).style.backgroundColor = 'var(--error-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.target as HTMLButtonElement).style.backgroundColor = 'var(--error-primary)';
+                    }}
                   >
                     <AlertTriangle className="w-4 h-4" />
                     Emergency Reset

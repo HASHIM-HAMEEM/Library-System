@@ -225,9 +225,9 @@ const QRScanner: React.FC<QRScannerProps> = ({
   return (
     <div className="space-y-6">
       {/* Scanner Controls */}
-      <div className="bg-[#18181b] rounded-lg p-6">
+      <div className="rounded-lg p-6" style={{backgroundColor: 'var(--bg-secondary)'}}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-white">QR Code Scanner</h3>
+          <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>QR Code Scanner</h3>
           <div className="flex items-center space-x-4">
             {/* Scan Mode Toggle */}
             <div className="flex items-center gap-2">
@@ -235,8 +235,12 @@ const QRScanner: React.FC<QRScannerProps> = ({
                 onClick={() => setCurrentScanType('entry')}
                 className={`px-3 py-1 rounded text-sm font-medium ${
                   currentScanType === 'entry'
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                    ? 'text-white'
+                  : 'hover:opacity-80'
+                }"
+                style={{
+                  backgroundColor: isScanning ? 'var(--success-color)' : 'var(--bg-secondary)',
+                  color: isScanning ? 'var(--bg-primary)' : 'var(--text-secondary)'
                 }`}
               >
                 Entry
@@ -245,8 +249,12 @@ const QRScanner: React.FC<QRScannerProps> = ({
                 onClick={() => setCurrentScanType('exit')}
                 className={`px-3 py-1 rounded text-sm font-medium ${
                   currentScanType === 'exit'
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                    ? 'text-white'
+                  : 'hover:opacity-80'
+                }"
+                style={{
+                  backgroundColor: isGenerating ? 'var(--error-color)' : 'var(--bg-secondary)',
+                  color: isGenerating ? 'var(--bg-primary)' : 'var(--text-secondary)'
                 }`}
               >
                 Exit
@@ -257,8 +265,12 @@ const QRScanner: React.FC<QRScannerProps> = ({
               disabled={isProcessing}
               className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
                 isScanning
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-white hover:bg-gray-100 text-black'
+                  ? 'text-white hover:opacity-80'
+                  : 'hover:opacity-80'
+                }"
+                style={{
+                  backgroundColor: scanResult ? 'var(--error-color)' : 'var(--bg-primary)',
+                  color: scanResult ? 'var(--bg-primary)' : 'var(--text-primary)'
               }`}
             >
               {isProcessing ? (
@@ -282,14 +294,12 @@ const QRScanner: React.FC<QRScannerProps> = ({
         </div>
 
         {/* Scanner Status */}
-        <div className="mb-4 p-3 rounded-lg bg-black">
+        <div className="mb-4 p-3 rounded-lg" style={{backgroundColor: 'var(--bg-tertiary)'}}>
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-300">
-              Mode: <span className={`capitalize ${
-                currentScanType === 'entry' ? 'text-green-400' : 'text-red-400'
-              }`}>{currentScanType}</span>
+            <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
+              Mode: <span className={`capitalize`} style={{color: currentScanType === 'entry' ? 'var(--success-color)' : 'var(--error-color)'}}>{currentScanType}</span>
             </span>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm" style={{color: 'var(--text-secondary)'}}>
               Status: {isProcessing ? 'Processing...' : isScanning ? 'Scanning' : 'Ready'}
             </span>
           </div>
@@ -298,22 +308,25 @@ const QRScanner: React.FC<QRScannerProps> = ({
         {/* Scanner Container */}
         <div className="relative">
           {isScanning ? (
-            <div className="bg-black rounded-lg overflow-hidden">
+            <div className="rounded-lg overflow-hidden" style={{backgroundColor: 'var(--bg-tertiary)'}}>
               <div id={elementId} className="w-full" />
               {/* Instructions overlay */}
-              <div className="text-center text-sm text-gray-400 bg-gray-800 p-3 rounded-b-lg">
+              <div className="text-center text-sm p-3 rounded-b-lg" style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-secondary)'}}>
                 <p>Position the QR code within the camera frame</p>
                 <p>Ensure good lighting for best results</p>
               </div>
             </div>
           ) : (
-            <div className="bg-black rounded-lg p-8 text-center">
-              <Camera className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-400">Click "Start Scanning" to begin</p>
+            <div className="rounded-lg p-8 text-center" style={{backgroundColor: 'var(--bg-tertiary)'}}>
+              <Camera className="w-16 h-16 mx-auto mb-4" style={{color: 'var(--text-secondary)'}} />
+              <p style={{color: 'var(--text-secondary)'}}>Click "Start Scanning" to begin</p>
               {scanResult && (
                 <button
                   onClick={restartScanning}
-                  className="mt-4 flex items-center space-x-2 mx-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  className="mt-4 flex items-center space-x-2 mx-auto px-4 py-2 rounded-lg transition-colors"
+              style={{backgroundColor: 'var(--accent-color)', color: 'var(--bg-primary)'}}
+              onMouseEnter={(e) => (e.target as HTMLButtonElement).style.opacity = '0.8'}
+              onMouseLeave={(e) => (e.target as HTMLButtonElement).style.opacity = '1'}
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>Scan Again</span>
@@ -328,10 +341,13 @@ const QRScanner: React.FC<QRScannerProps> = ({
       {scanResult && (
         <div className="bg-[#18181b] rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Scan Result</h3>
+            <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Scan Result</h3>
             <button
               onClick={clearResult}
-              className="text-gray-400 hover:text-white"
+              className="transition-colors"
+                style={{color: 'var(--text-secondary)'}}
+                onMouseEnter={(e) => (e.target as HTMLButtonElement).style.color = 'var(--text-primary)'}
+                onMouseLeave={(e) => (e.target as HTMLButtonElement).style.color = 'var(--text-secondary)'}
             >
               <X className="w-5 h-5" />
             </button>
@@ -356,62 +372,62 @@ const QRScanner: React.FC<QRScannerProps> = ({
             </div>
 
             {scanResult.userData && (
-              <div className="bg-black p-4 rounded border space-y-3">
+              <div className="p-4 rounded border space-y-3" style={{backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)'}}>
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-gray-300" />
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                    <User className="w-6 h-6" style={{color: 'var(--text-secondary)'}} />
                   </div>
                   <div>
-                    <h5 className="font-semibold text-white">{scanResult.userData.fullName}</h5>
-                    <p className="text-sm text-gray-400">{scanResult.userData.email}</p>
+                    <h5 className="font-semibold" style={{color: 'var(--text-primary)'}}>{scanResult.userData.fullName}</h5>
+              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>{scanResult.userData.email}</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">User ID:</span>
-                    <span className="text-white font-medium">{scanResult.userData.id}</span>
-                  </div>
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">Phone:</span>
-                    <span className="text-white font-medium">{scanResult.userData.phone || 'N/A'}</span>
-                  </div>
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">Role:</span>
-                    <span className="text-white font-medium">{scanResult.userData.role}</span>
-                  </div>
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">Status:</span>
+                  <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>User ID:</span>
+                  <span className="font-medium" style={{color: 'var(--text-primary)'}}>{scanResult.userData.id}</span>
+                </div>
+                <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>Phone:</span>
+                  <span className="font-medium" style={{color: 'var(--text-primary)'}}>{scanResult.userData.phone || 'N/A'}</span>
+                </div>
+                <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>Role:</span>
+                  <span className="font-medium" style={{color: 'var(--text-primary)'}}>{scanResult.userData.role}</span>
+                </div>
+                <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>Status:</span>
                     <span className={`font-medium ${
                       scanResult.userData.status === 'active' ? 'text-green-400' : 'text-red-400'
                     }`}>
                       {scanResult.userData.status}
                     </span>
                   </div>
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">Subscription:</span>
+                  <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>Subscription:</span>
                     <span className={`font-medium ${
                       scanResult.userData.subscription_status === 'active' ? 'text-green-400' : 'text-red-400'
                     }`}>
                       {scanResult.userData.subscription_status}
                     </span>
                   </div>
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">Expires:</span>
-                    <span className="text-white font-medium">
+                  <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>Expires:</span>
+                  <span className="font-medium" style={{color: 'var(--text-primary)'}}>
                       {scanResult.userData.subscriptionValidUntil
                         ? new Date(scanResult.userData.subscriptionValidUntil).toLocaleDateString()
                         : 'N/A'
                       }
                     </span>
                   </div>
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">Scan Type:</span>
-                    <span className="text-white font-medium capitalize">{scanResult.scanType}</span>
-                  </div>
-                  <div className="bg-gray-800 p-2 rounded">
-                    <span className="text-gray-400 block">Location:</span>
-                    <span className="text-white font-medium">{location}</span>
+                  <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>Scan Type:</span>
+                  <span className="font-medium capitalize" style={{color: 'var(--text-primary)'}}>{scanResult.scanType}</span>
+                </div>
+                <div className="p-2 rounded" style={{backgroundColor: 'var(--bg-secondary)'}}>
+                  <span className="block" style={{color: 'var(--text-secondary)'}}>Location:</span>
+                  <span className="font-medium" style={{color: 'var(--text-primary)'}}>{location}</span>
                   </div>
                 </div>
                 

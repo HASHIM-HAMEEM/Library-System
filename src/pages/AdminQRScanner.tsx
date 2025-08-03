@@ -166,27 +166,28 @@ export default function AdminQRScanner() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">QR Code Scanner</h1>
-          <p className="mt-2 text-gray-600">Scan student QR codes for entry and exit tracking</p>
+          <h1 className="text-3xl font-bold" style={{color: 'var(--text-primary)'}}>QR Code Scanner</h1>
+          <p className="mt-2" style={{color: 'var(--text-secondary)'}}>Scan student QR codes for entry and exit tracking</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Scanner Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="text-center">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Scanner</h2>
+              <h2 className="text-xl font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Scanner</h2>
               
               {!isScanning && !loading && (
                 <div className="space-y-4">
                   <div className="w-64 h-64 mx-auto bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                     <div className="text-center">
-                      <Scan className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                      <p className="text-gray-500">Click to start scanning</p>
+                      <Scan className="h-16 w-16 mx-auto mb-4" style={{color: 'var(--text-secondary)'}} />
+                      <p style={{color: 'var(--text-secondary)'}}>Click to start scanning</p>
                     </div>
                   </div>
                   <button
                     onClick={startScanning}
-                    className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors font-semibold"
+                    className="w-full py-3 px-6 rounded-lg transition-colors font-semibold"
+                    style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)'}}
                   >
                     Start Scanner
                   </button>
@@ -198,7 +199,10 @@ export default function AdminQRScanner() {
                   <div id={scannerElementId} className="mx-auto"></div>
                   <button
                     onClick={stopScanning}
-                    className="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-colors font-semibold"
+                    className="w-full py-3 px-6 rounded-lg transition-colors font-semibold"
+                    style={{backgroundColor: 'var(--accent-color)', color: 'var(--bg-primary)'}}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-hover)'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-color)'}
                   >
                     Stop Scanner
                   </button>
@@ -209,7 +213,7 @@ export default function AdminQRScanner() {
                 <div className="w-64 h-64 mx-auto bg-gray-100 rounded-lg flex items-center justify-center">
                   <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600 mx-auto mb-4"></div>
-                    <p className="text-gray-500">Processing scan...</p>
+                    <p style={{color: 'var(--text-secondary)'}}>Processing scan...</p>
                   </div>
                 </div>
               )}
@@ -221,7 +225,7 @@ export default function AdminQRScanner() {
             {/* Scan Result */}
             {scanResult && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Scan Result</h3>
+                <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Scan Result</h3>
                 <div className={`p-4 rounded-lg border-2 ${
                   scanResult.success 
                     ? 'bg-green-50 border-green-200' 
@@ -241,18 +245,18 @@ export default function AdminQRScanner() {
                       </p>
                       {scanResult.studentName && (
                         <div className="mt-2 space-y-1">
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
                             <User className="h-4 w-4 inline mr-1" />
                             Student: {scanResult.studentName}
                           </p>
                           {scanResult.action && (
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
                               <Clock className="h-4 w-4 inline mr-1" />
                               Action: {scanResult.action.charAt(0).toUpperCase() + scanResult.action.slice(1)}
                             </p>
                           )}
                           {scanResult.timestamp && (
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
                               <Calendar className="h-4 w-4 inline mr-1" />
                               Time: {formatTime(scanResult.timestamp)}
                             </p>
@@ -267,7 +271,8 @@ export default function AdminQRScanner() {
                     setScanResult(null);
                     startScanning();
                   }}
-                  className="mt-4 w-full bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"
+                  className="mt-4 w-full py-2 px-4 rounded-lg transition-colors"
+                  style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)'}}
                 >
                   Scan Another
                 </button>
@@ -276,7 +281,7 @@ export default function AdminQRScanner() {
 
             {/* Recent Scans */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Scans</h3>
+              <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Recent Scans</h3>
               {recentScans.length > 0 ? (
                 <div className="space-y-3 max-h-96 overflow-y-auto">
                   {recentScans.map((scan) => (
@@ -288,8 +293,8 @@ export default function AdminQRScanner() {
                           <XCircle className="h-5 w-5 text-red-600 mr-3" />
                         )}
                         <div>
-                          <p className="font-medium text-gray-900">{scan.student_name}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="font-medium" style={{color: 'var(--text-primary)'}}>{scan.student_name}</p>
+                          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
                             {scan.action.charAt(0).toUpperCase() + scan.action.slice(1)} • {formatTime(scan.timestamp)}
                           </p>
                         </div>
@@ -306,8 +311,8 @@ export default function AdminQRScanner() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <AlertTriangle className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500">No recent scans</p>
+                  <AlertTriangle className="h-12 w-12 mx-auto mb-4" style={{color: 'var(--text-secondary)'}} />
+                  <p style={{color: 'var(--text-secondary)'}}>No recent scans</p>
                 </div>
               )}
             </div>

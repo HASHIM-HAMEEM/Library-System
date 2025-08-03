@@ -59,13 +59,22 @@ const AdminInvitePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-4" style={{backgroundColor: '#000000'}}>
+    <div className="min-h-screen p-4" style={{backgroundColor: 'var(--bg-primary)'}}>
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 pt-8">
           <button
             onClick={() => navigate('/admin')}
-            className="flex items-center text-white/80 hover:text-white transition-colors"
+            className="flex items-center transition-colors"
+            style={{
+              color: 'var(--text-secondary)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--text-primary)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--text-secondary)';
+            }}
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Dashboard
@@ -73,15 +82,15 @@ const AdminInvitePage: React.FC = () => {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+        <div className="rounded-2xl shadow-2xl p-8" style={{backgroundColor: 'var(--bg-secondary)'}}>
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-              <UserPlus className="w-8 h-8 text-black" />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{backgroundColor: 'var(--bg-tertiary)'}}>
+              <UserPlus className="w-8 h-8" style={{color: 'var(--text-primary)'}} />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
               Create New Admin
             </h1>
-            <p className="text-gray-600">
+            <p style={{color: 'var(--text-secondary)'}}>
               Create a new admin account directly
             </p>
           </div>
@@ -90,7 +99,7 @@ const AdminInvitePage: React.FC = () => {
             /* Admin Creation Form */
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
                   <Mail className="w-4 h-4 inline mr-2" />
                   Email Address
                 </label>
@@ -99,14 +108,19 @@ const AdminInvitePage: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white" style={{backgroundColor: '#000000'}}
+                  className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-offset-2"
+                  style={{
+                    backgroundColor: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border-color)'
+                  }}
                   placeholder="admin@example.com"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
                   <User className="w-4 h-4 inline mr-2" />
                   Full Name
                 </label>
@@ -115,14 +129,19 @@ const AdminInvitePage: React.FC = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white" style={{backgroundColor: '#000000'}}
+                  className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-offset-2"
+                  style={{
+                    backgroundColor: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border-color)'
+                  }}
                   placeholder="John Doe"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
                   <Lock className="w-4 h-4 inline mr-2" />
                   Temporary Password
                 </label>
@@ -132,14 +151,25 @@ const AdminInvitePage: React.FC = () => {
                     name="temporaryPassword"
                     value={formData.temporaryPassword}
                     onChange={handleInputChange}
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white" style={{backgroundColor: '#000000'}}
+                    className="flex-1 px-4 py-3 rounded-lg focus:ring-2 focus:ring-offset-2"
+                    style={{
+                      backgroundColor: 'var(--bg-primary)',
+                      color: 'var(--text-primary)',
+                      border: '1px solid var(--border-color)'
+                    }}
                     placeholder="Enter temporary password"
                     required
                   />
                   <button
                     type="button"
                     onClick={generatePassword}
-                    className="px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+                    className="px-4 py-3 rounded-lg transition-colors"
+                    style={{
+                      backgroundColor: 'var(--bg-secondary)',
+                      color: 'var(--text-primary)'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-hover)'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'}
                   >
                     Generate
                   </button>
@@ -149,7 +179,13 @@ const AdminInvitePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-white text-black py-3 px-4 rounded-lg font-medium hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full py-3 px-4 rounded-lg font-medium focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                style={{
+                  backgroundColor: 'var(--bg-primary)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = 'var(--bg-hover)')}
+                onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = 'var(--bg-primary)')}
               >
                 {loading ? 'Creating Account...' : 'Create Admin Account'}
               </button>
@@ -157,24 +193,30 @@ const AdminInvitePage: React.FC = () => {
           ) : (
             /* Account Creation Success */
             <div className="text-center space-y-6">
-              <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+              <div className="p-4 rounded-lg border" style={{
+                backgroundColor: 'var(--bg-secondary)',
+                borderColor: 'var(--border-color)'
+              }}>
                 <div className="flex items-center justify-center mb-2">
                   <Check className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-green-800 mb-2">
+                <h3 className="text-lg font-semibold mb-2" style={{color: 'var(--text-primary)'}}>
                   Admin Account Created Successfully!
                 </h3>
-                <p className="text-green-700 text-sm">
+                <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
                   The admin account has been created with the provided credentials.
                 </p>
               </div>
 
-              <div className="p-4 bg-gray-50 rounded-lg border">
-                <p className="text-sm text-gray-600 mb-2">Account Details:</p>
+              <div className="p-4 rounded-lg border" style={{
+                backgroundColor: 'var(--bg-secondary)',
+                borderColor: 'var(--border-color)'
+              }}>
+                <p className="text-sm mb-2" style={{color: 'var(--text-secondary)'}}>Account Details:</p>
                 <div className="text-left space-y-2">
-                  <p className="text-sm"><strong>Email:</strong> {formData.email}</p>
-                  <p className="text-sm"><strong>Name:</strong> {formData.name}</p>
-                  <p className="text-sm text-orange-600">
+                  <p className="text-sm" style={{color: 'var(--text-primary)'}}><strong>Email:</strong> {formData.email}</p>
+                  <p className="text-sm" style={{color: 'var(--text-primary)'}}><strong>Name:</strong> {formData.name}</p>
+                  <p className="text-sm" style={{color: 'var(--accent-color)'}}>
                     <strong>Note:</strong> The admin should change their password after first login.
                   </p>
                 </div>
@@ -183,13 +225,25 @@ const AdminInvitePage: React.FC = () => {
               <div className="space-y-3">
                 <button
                   onClick={resetForm}
-                  className="w-full bg-white text-black py-3 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                  className="w-full py-3 px-4 rounded-lg font-medium transition-colors"
+                  style={{
+                    backgroundColor: 'var(--bg-primary)',
+                    color: 'var(--text-primary)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-hover)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-primary)'}
                 >
                   Create Another Admin
                 </button>
                 <button
                   onClick={() => navigate('/admin')}
-                  className="w-full bg-gray-200 text-gray-800 py-3 px-4 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+                  className="w-full py-3 px-4 rounded-lg font-medium transition-colors"
+                  style={{
+                    backgroundColor: 'var(--bg-secondary)',
+                    color: 'var(--text-primary)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-hover)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'}
                 >
                   Back to Dashboard
                 </button>

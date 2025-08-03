@@ -14,8 +14,8 @@ const LoadingSpinner = ({ size = 'md', text = 'Loading...' }: LoadingSpinnerProp
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <Loader2 className={`animate-spin text-white ${sizeClasses[size]}`} />
-      <p className="mt-4 text-gray-600 text-sm">{text}</p>
+      <Loader2 className={`animate-spin ${sizeClasses[size]}`} style={{color: 'var(--accent-color)'}} />
+      <p className="mt-4 text-sm" style={{color: 'var(--text-secondary)'}}>{text}</p>
     </div>
   );
 };

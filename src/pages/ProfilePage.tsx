@@ -104,11 +104,11 @@ const ProfilePage = () => {
   const getSubscriptionStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return { backgroundColor: 'var(--success-bg)', color: 'var(--success-text)', border: '1px solid var(--success-border)' };
       case 'expired':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return { backgroundColor: 'var(--error-bg)', color: 'var(--error-text)', border: '1px solid var(--error-border)' };
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return { backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' };
     }
   };
 
@@ -119,35 +119,49 @@ const ProfilePage = () => {
 
   if (!userProfile) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: 'var(--accent-color)' }}></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="shadow-sm border-b" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link
                 to={'/dashboard'}
-                className="flex items-center text-gray-600 hover:text-gray-900 mr-4"
+                className="flex items-center mr-4 transition-colors"
+                style={{ color: 'var(--text-secondary)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--text-primary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                }}
               >
                 <ArrowLeft className="h-5 w-5" />
               </Link>
-              <div className="bg-white rounded-lg p-2">
-                <User className="h-6 w-6 text-white" />
+              <div className="rounded-lg p-2" style={{ backgroundColor: 'var(--accent-color)' }}>
+                <User className="h-6 w-6" style={{ color: 'var(--text-primary)' }} />
               </div>
-              <h1 className="ml-3 text-xl font-semibold text-gray-900">Profile</h1>
+              <h1 className="ml-3 text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>Profile</h1>
             </div>
             <div className="flex items-center space-x-4">
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="flex items-center px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+                  className="flex items-center px-4 py-2 rounded-lg transition-colors"
+                  style={{ backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '0.8';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '1';
+                  }}
                 >
                   <Edit2 className="h-4 w-4 mr-2" />
                   Edit Profile
@@ -157,7 +171,14 @@ const ProfilePage = () => {
                   <button
                     onClick={handleSave}
                     disabled={loading}
-                    className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: 'var(--success-color)', color: 'var(--text-primary)' }}
+                    onMouseEnter={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '0.8';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '1';
+                    }}
                   >
                     {loading ? (
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -169,7 +190,14 @@ const ProfilePage = () => {
                   <button
                     onClick={handleCancel}
                     disabled={loading}
-                    className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
+                    onMouseEnter={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '0.8';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '1';
+                    }}
                   >
                     <X className="h-4 w-4 mr-2" />
                     Cancel
@@ -185,13 +213,13 @@ const ProfilePage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Profile Information */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-6">Personal Information</h2>
+            <div className="rounded-xl shadow-sm p-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+              <h2 className="text-lg font-medium mb-6" style={{ color: 'var(--text-primary)' }}>Personal Information</h2>
               
               <div className="space-y-6">
                 {/* Name */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                     Full Name
                   </label>
                   {isEditing ? (
@@ -199,20 +227,33 @@ const ProfilePage = () => {
                       type="text"
                       value={profileData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white" style={{backgroundColor: '#000000'}}
+                      className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:outline-none"
+                      style={{
+                        backgroundColor: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-color)',
+                        color: 'var(--text-primary)'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--accent-color)';
+                        e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-color)20`;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--border-color)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                       placeholder="Enter your full name"
                     />
                   ) : (
-                    <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                      <User className="h-5 w-5 text-gray-400 mr-3" />
-                      <span className="text-gray-900">{profileData.name || 'Not provided'}</span>
+                    <div className="flex items-center p-3 rounded-lg" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                      <User className="h-5 w-5 mr-3" style={{ color: 'var(--text-secondary)' }} />
+                      <span style={{ color: 'var(--text-primary)' }}>{profileData.name || 'Not provided'}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                     Email Address
                   </label>
                   {isEditing ? (
@@ -220,20 +261,33 @@ const ProfilePage = () => {
                       type="email"
                       value={profileData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white" style={{backgroundColor: '#000000'}}
+                      className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:outline-none"
+                      style={{
+                        backgroundColor: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-color)',
+                        color: 'var(--text-primary)'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--accent-color)';
+                        e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-color)20`;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--border-color)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                       placeholder="Enter your email address"
                     />
                   ) : (
-                    <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                      <Mail className="h-5 w-5 text-gray-300 mr-3" />
-                      <span className="text-gray-900">{profileData.email || 'Not provided'}</span>
+                    <div className="flex items-center p-3 rounded-lg" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                      <Mail className="h-5 w-5 mr-3" style={{ color: 'var(--text-secondary)' }} />
+                      <span style={{ color: 'var(--text-primary)' }}>{profileData.email || 'Not provided'}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                     Phone Number
                   </label>
                   {isEditing ? (
@@ -241,20 +295,33 @@ const ProfilePage = () => {
                       type="tel"
                       value={profileData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white" style={{backgroundColor: '#000000'}}
+                      className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:outline-none"
+                      style={{
+                        backgroundColor: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-color)',
+                        color: 'var(--text-primary)'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--accent-color)';
+                        e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-color)20`;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--border-color)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                       placeholder="Enter your phone number"
                     />
                   ) : (
-                    <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                      <Phone className="h-5 w-5 text-gray-300 mr-3" />
-                      <span className="text-gray-900">{profileData.phone || 'Not provided'}</span>
+                    <div className="flex items-center p-3 rounded-lg" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                      <Phone className="h-5 w-5 mr-3" style={{ color: 'var(--text-secondary)' }} />
+                      <span style={{ color: 'var(--text-primary)' }}>{profileData.phone || 'Not provided'}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Address */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                     Address
                   </label>
                   {isEditing ? (
@@ -262,13 +329,26 @@ const ProfilePage = () => {
                       value={profileData.address}
                       onChange={(e) => handleInputChange('address', e.target.value)}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white" style={{backgroundColor: '#000000'}}
+                      className="w-full px-3 py-2 rounded-lg focus:ring-2 focus:outline-none"
+                      style={{
+                        backgroundColor: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-color)',
+                        color: 'var(--text-primary)'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--accent-color)';
+                        e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-color)20`;
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--border-color)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                       placeholder="Enter your address"
                     />
                   ) : (
-                    <div className="flex items-start p-3 bg-gray-50 rounded-lg">
-                      <MapPin className="h-5 w-5 text-gray-400 mr-3 mt-0.5" />
-                      <span className="text-gray-900">{profileData.address || 'Not provided'}</span>
+                    <div className="flex items-start p-3 rounded-lg" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+                      <MapPin className="h-5 w-5 mr-3 mt-0.5" style={{ color: 'var(--text-secondary)' }} />
+                      <span style={{ color: 'var(--text-primary)' }}>{profileData.address || 'Not provided'}</span>
                     </div>
                   )}
                 </div>
@@ -279,16 +359,16 @@ const ProfilePage = () => {
           {/* Account Summary */}
           <div className="space-y-6">
             {/* Account Status */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Account Status</h3>
+            <div className="rounded-xl shadow-sm p-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+              <h3 className="text-lg font-medium mb-4" style={{ color: 'var(--text-primary)' }}>Account Status</h3>
               
               <div className="space-y-4">
                 {/* Role */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Role</span>
+                  <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Role</span>
                   <div className="flex items-center">
-                    <Shield className="h-4 w-4 text-white mr-2" />
-                    <span className="text-sm font-medium text-gray-900 capitalize">
+                    <Shield className="h-4 w-4 mr-2" style={{ color: 'var(--accent-color)' }} />
+                    <span className="text-sm font-medium capitalize" style={{ color: 'var(--text-primary)' }}>
                       {userProfile.role}
                     </span>
                   </div>
@@ -296,10 +376,10 @@ const ProfilePage = () => {
 
                 {/* Member Since */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Member Since</span>
+                  <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Member Since</span>
                   <div className="flex items-center">
-                    <Calendar className="h-4 w-4 text-gray-400 mr-2" />
-                    <span className="text-sm text-gray-900">
+                    <Calendar className="h-4 w-4 mr-2" style={{ color: 'var(--text-secondary)' }} />
+                    <span className="text-sm" style={{ color: 'var(--text-primary)' }}>
                       {format(new Date(userProfile.created_at), 'MMM yyyy')}
                     </span>
                   </div>
@@ -309,7 +389,7 @@ const ProfilePage = () => {
                 {userProfile.role === 'student' && (
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-600">Subscription</span>
+                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Subscription</span>
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full border ${
                         getSubscriptionStatusColor(userProfile.subscription_status || 'inactive')
                       }`}>
@@ -319,16 +399,16 @@ const ProfilePage = () => {
                     
                     {userProfile.subscription_type && (
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">Type</span>
-                        <span className="text-sm text-gray-900">
+                        <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Type</span>
+                        <span className="text-sm" style={{ color: 'var(--text-primary)' }}>
                           {getSubscriptionTypeDisplay(userProfile.subscription_type)}
                         </span>
                       </div>
                     )}
                     
                     <div className="flex items-center justify-between mt-2">
-                      <span className="text-sm text-gray-600">Type</span>
-                      <span className="text-sm text-gray-900 capitalize">
+                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Type</span>
+                      <span className="text-sm capitalize" style={{ color: 'var(--text-primary)' }}>
                         {userProfile.subscription_type}
                       </span>
                     </div>
@@ -339,27 +419,60 @@ const ProfilePage = () => {
 
             {/* Quick Actions */}
             {userProfile.role === 'student' && (
-              <div className="bg-white rounded-xl shadow-sm p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+              <div className="rounded-xl shadow-sm p-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                <h3 className="text-lg font-medium mb-4" style={{ color: 'var(--text-primary)' }}>Quick Actions</h3>
                 
                 <div className="space-y-3">
                   <Link
                     to="/scan"
-                    className="block w-full text-center px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+                    className="block w-full text-center px-4 py-2 rounded-lg transition-colors"
+                    style={{ 
+                      backgroundColor: 'var(--bg-tertiary)', 
+                      color: 'var(--text-primary)',
+                      border: '1px solid var(--border-color)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--accent-color)';
+                      e.currentTarget.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--bg-tertiary)';
+                      e.currentTarget.style.color = 'var(--text-primary)';
+                    }}
                   >
                     QR Scanner
                   </Link>
                   
                   <Link
                     to="/subscription"
-                    className="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    className="block w-full text-center px-4 py-2 rounded-lg transition-colors"
+                    style={{ 
+                      backgroundColor: 'var(--success-bg)', 
+                      color: 'white'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = '0.9';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = '1';
+                    }}
                   >
                     Manage Subscription
                   </Link>
                   
                   <Link
                     to="/attendance"
-                    className="block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                    className="block w-full text-center px-4 py-2 rounded-lg transition-colors"
+                    style={{ 
+                      backgroundColor: 'var(--accent-color)', 
+                      color: 'white'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = '0.9';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = '1';
+                    }}
                   >
                     View Attendance
                   </Link>

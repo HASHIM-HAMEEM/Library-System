@@ -506,6 +506,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         updated_at: new Date().toISOString()
       };
       
+      if (action === 'approve') {
+        updates.is_active = true;
+        updates.approved_by = user.uid;
+        updates.approved_at = new Date().toISOString();
+      }
+      
       if (action === 'reject' && reason) {
         updates.rejection_reason = reason;
       }

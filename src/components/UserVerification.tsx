@@ -227,12 +227,12 @@ const UserVerification: React.FC<UserVerificationProps> = ({ className = '' }) =
   }
 
   return (
-    <div className={`bg-white rounded-lg shadow-lg ${className}`}>
+    <div className={`rounded-lg shadow-lg ${className}`} style={{backgroundColor: 'var(--bg-primary)'}}>
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Clock className="w-6 h-6 text-orange-600" />
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold" style={{color: 'var(--text-primary)'}}>
               Pending User Verifications
             </h2>
           </div>
@@ -248,7 +248,7 @@ const UserVerification: React.FC<UserVerificationProps> = ({ className = '' }) =
           <h3 className="text-lg font-semibold text-gray-800 mb-2">
             All Caught Up!
           </h3>
-          <p className="text-gray-600">
+          <p style={{color: 'var(--text-secondary)'}}>
             No pending user verifications at the moment.
           </p>
         </div>
@@ -285,7 +285,7 @@ const UserVerification: React.FC<UserVerificationProps> = ({ className = '' }) =
 
                     {/* User Details Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                      <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="p-3 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
                         <span className="text-xs text-gray-500 block">Registration Date</span>
                         <span className="text-sm font-medium text-gray-800">
                           {formatDate(user.created_at)}

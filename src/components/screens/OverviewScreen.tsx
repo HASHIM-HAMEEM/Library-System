@@ -48,74 +48,74 @@ const OverviewScreen: React.FC<OverviewScreenProps> = ({
     <>
       {/* Dashboard Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div className="p-6 rounded-lg" style={{backgroundColor: '#18181b'}}>
+        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-400">Total Admins</p>
-              <p className="text-2xl font-bold text-white">{stats.totalAdmins}</p>
+              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Total Admins</p>
+              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{stats.totalAdmins}</p>
             </div>
-            <div className="p-3 bg-gray-800 rounded-full">
-              <Users className="w-6 h-6 text-white" />
+            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
+              <Users className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <span className="text-white font-medium">Active</span>
-            <span className="text-gray-400 ml-1">system users</span>
+            <span className="font-medium" style={{color: 'var(--text-primary)'}}>Active</span>
+            <span className="ml-1" style={{color: 'var(--text-secondary)'}}>system users</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-lg" style={{backgroundColor: '#18181b'}}>
+        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-400">System Uptime</p>
-              <p className="text-2xl font-bold text-white">{stats.systemUptime}%</p>
+              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>System Uptime</p>
+              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{stats.systemUptime}%</p>
             </div>
-            <div className="p-3 bg-gray-800 rounded-full">
-              <Activity className="w-6 h-6 text-white" />
+            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
+              <Activity className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <span className="text-gray-400">Status:</span>
-            <span className="text-white font-medium ml-1">Healthy</span>
+            <span style={{color: 'var(--text-secondary)'}}>Status:</span>
+            <span className="font-medium ml-1" style={{color: 'var(--text-primary)'}}>Healthy</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-lg" style={{backgroundColor: '#18181b'}}>
+        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-400">Active Users</p>
-              <p className="text-2xl font-bold text-white">{stats.activeUsers}</p>
+              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Active Users</p>
+              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{stats.activeUsers}</p>
             </div>
-            <div className="p-3 bg-gray-800 rounded-full">
-              <CreditCard className="w-6 h-6 text-white" />
+            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
+              <CreditCard className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <span className="text-white font-medium">Online</span>
-            <span className="text-gray-400 ml-1">right now</span>
+            <span className="font-medium" style={{color: 'var(--text-primary)'}}>Online</span>
+            <span className="ml-1" style={{color: 'var(--text-secondary)'}}>right now</span>
           </div>
         </div>
 
-        <div className="p-6 rounded-lg" style={{backgroundColor: '#18181b'}}>
+        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-400">Today's Logins</p>
-              <p className="text-2xl font-bold text-white">{stats.todayLogins}</p>
+              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Today's Logins</p>
+              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{stats.todayLogins}</p>
             </div>
-            <div className="p-3 bg-gray-800 rounded-full">
-              <QrCode className="w-6 h-6 text-white" />
+            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
+              <QrCode className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <span className="text-white font-medium">Secure</span>
-            <span className="text-gray-400 ml-1">access only</span>
+            <span className="font-medium" style={{color: 'var(--text-primary)'}}>Secure</span>
+            <span className="ml-1" style={{color: 'var(--text-secondary)'}}>access only</span>
           </div>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="p-6 rounded-lg mb-6" style={{backgroundColor: '#18181b'}}>
-        <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
+      <div className="p-6 rounded-lg mb-6" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Removed duplicate “Add Admin” action — admins are managed from Admin Management */}
           <button
@@ -128,15 +128,15 @@ const OverviewScreen: React.FC<OverviewScreenProps> = ({
               logAction('attendance_export_initiated', { source: 'quick_actions' });
               exportAttendance();
             }}
-            style={{backgroundColor: '#18181b'}}
+            style={{backgroundColor: 'var(--bg-secondary)'}}
             className="flex items-center gap-3 p-4 rounded-lg hover:opacity-80 transition-opacity"
           >
-            <div className="p-2 bg-black rounded-lg">
-              <Download className="w-5 h-5 text-white" />
+            <div className="p-2 rounded-lg" style={{backgroundColor: 'var(--bg-tertiary)'}}>
+              <Download className="w-5 h-5" style={{color: 'var(--text-primary)'}} />
             </div>
             <div className="text-left">
-              <div className="font-medium text-white">Export Data</div>
-              <div className="text-sm text-gray-400">Download attendance</div>
+              <div className="font-medium" style={{color: 'var(--text-primary)'}}>Export Data</div>
+              <div className="text-sm" style={{color: 'var(--text-secondary)'}}>Download attendance</div>
             </div>
           </button>
         </div>
@@ -145,8 +145,8 @@ const OverviewScreen: React.FC<OverviewScreenProps> = ({
       {/* Analytics Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Visits Chart */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: '#18181b'}}>
-          <h3 className="text-lg font-semibold text-white mb-4">Daily Visits</h3>
+        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+          <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Daily Visits</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={analyticsData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -154,10 +154,10 @@ const OverviewScreen: React.FC<OverviewScreenProps> = ({
               <YAxis stroke="#9CA3AF" />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#000000',
+                  backgroundColor: 'var(--bg-primary)',
                   border: 'none',
                   borderRadius: '8px',
-                  color: '#FFFFFF'
+                  color: 'var(--text-primary)'
                 }}
               />
               <Line type="monotone" dataKey="visits" stroke="#FFFFFF" strokeWidth={2} />
@@ -166,8 +166,8 @@ const OverviewScreen: React.FC<OverviewScreenProps> = ({
         </div>
 
         {/* Subscription Breakdown */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: '#18181b'}}>
-          <h3 className="text-lg font-semibold text-white mb-4">Subscription Types</h3>
+        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+          <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Subscription Types</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -186,10 +186,10 @@ const OverviewScreen: React.FC<OverviewScreenProps> = ({
               </Pie>
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#000000',
+                  backgroundColor: 'var(--bg-primary)',
                   border: 'none',
                   borderRadius: '8px',
-                  color: '#FFFFFF'
+                  color: 'var(--text-primary)'
                 }}
               />
             </PieChart>

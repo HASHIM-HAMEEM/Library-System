@@ -133,24 +133,26 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
   }
   
   return (
-    <div className={`rounded-lg shadow-md p-6 ${className}`} style={{backgroundColor: '#000000'}}>
+    <div className={`rounded-lg shadow-md p-6 ${className}`} style={{backgroundColor: 'var(--bg-primary)'}}>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Users className="h-6 w-6 text-white" />
-          <h2 className="text-xl font-semibold text-white">Admin Management</h2>
+          <Users className="h-6 w-6" style={{color: 'var(--text-primary)'}} />
+          <h2 className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>Admin Management</h2>
         </div>
         <div className="flex gap-2">
           <button
             onClick={loadAdmins}
             disabled={loading}
-            className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 disabled:opacity-50"
+            className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:opacity-80 disabled:opacity-50 transition-opacity"
+            style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-secondary)'}}
           >
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh
           </button>
           <button
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200"
+            className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:opacity-80 transition-opacity"
+            style={{backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-secondary)'}}
           >
             <UserPlus className="h-4 w-4" />
             Add Admin
@@ -160,40 +162,40 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
       
       {/* Create Admin Form */}
       {showCreateForm && (
-        <div className="mb-6 p-4 rounded-lg border border-gray-300" style={{backgroundColor: '#000000'}}>
-          <h3 className="text-lg font-medium text-white mb-4">Create New Admin</h3>
+        <div className="p-4 rounded-lg mb-4" style={{backgroundColor: 'var(--bg-secondary)'}}>
+          <h3 className="text-lg font-semibold mb-2" style={{color: 'var(--text-primary)'}}>Create New Admin</h3>
           <form onSubmit={handleCreateAdmin} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium mb-1" style={{color: 'var(--text-secondary)'}}>
                   Email *
                 </label>
                 <input
                   type="email"
                   value={newAdminForm.email}
                   onChange={(e) => setNewAdminForm(prev => ({ ...prev, email: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
-                  style={{backgroundColor: '#000000'}}
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                  style={{backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)'}}
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium mb-1" style={{color: 'var(--text-secondary)'}}>
                   Full Name *
                 </label>
                 <input
                   type="text"
                   value={newAdminForm.name}
                   onChange={(e) => setNewAdminForm(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
-                  style={{backgroundColor: '#000000'}}
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                  style={{backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)'}}
                   required
                 />
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium mb-1" style={{color: 'var(--text-secondary)'}}>
                 Password *
               </label>
               <div className="relative">
@@ -201,14 +203,16 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
                   type={showPassword ? 'text' : 'password'}
                   value={newAdminForm.password}
                   onChange={(e) => setNewAdminForm(prev => ({ ...prev, password: e.target.value }))}
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white" style={{backgroundColor: '#000000'}}
+                  className="w-full px-3 py-2 pr-10 border rounded-md focus:outline-none focus:ring-2"
+                  style={{backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)'}}
                   minLength={8}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 hover:opacity-80 transition-opacity"
+                  style={{color: 'var(--text-secondary)'}}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -216,7 +220,7 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>
                 Permissions
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -226,9 +230,10 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
                       type="checkbox"
                       checked={newAdminForm.permissions.includes(permission)}
                       onChange={(e) => handlePermissionChange(permission, e.target.checked)}
-                      className="rounded border-gray-300 text-white focus:ring-white"
+                      className="rounded border focus:ring-2"
+                      style={{borderColor: 'var(--border-color)', accentColor: 'var(--accent-color)'}}
                     />
-                    <span className="text-sm text-gray-700 capitalize">
+                    <span className="text-sm capitalize" style={{color: 'var(--text-primary)'}}>
                       {permission.replace('_', ' ')}
                     </span>
                   </label>
@@ -240,7 +245,8 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
               <button
                 type="submit"
                 disabled={actionLoading === 'create'}
-                className="px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 disabled:opacity-50 flex items-center gap-2"
+                className="px-4 py-2 rounded-md hover:opacity-80 disabled:opacity-50 flex items-center gap-2 transition-opacity"
+                style={{backgroundColor: 'var(--accent-color)', color: 'var(--text-primary)'}}
               >
                 {actionLoading === 'create' && <RefreshCw className="h-4 w-4 animate-spin" />}
                 Create Admin
@@ -248,7 +254,8 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
               <button
                 type="button"
                 onClick={() => setShowCreateForm(false)}
-                className="px-4 py-2 text-black bg-white rounded-md hover:bg-gray-200"
+                className="px-4 py-2 rounded-md hover:opacity-80 transition-opacity"
+                style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-secondary)', borderWidth: '1px', borderColor: 'var(--border-color)'}}
               >
                 Cancel
               </button>
@@ -260,32 +267,32 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
       {/* Admin List */}
       <div className="space-y-4">
         {admins.length === 0 ? (
-          <div className="text-center py-8 text-gray-300">
-            <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+          <div className="text-center py-8" style={{color: 'var(--text-secondary)'}}>
+            <Users className="h-12 w-12 mx-auto mb-4" style={{color: 'var(--text-secondary)'}} />
             <p>No admin users found</p>
           </div>
         ) : (
           admins.map((admin) => (
-            <div key={admin.id} className="flex items-center justify-between p-4 border border-gray-600 rounded-lg" style={{backgroundColor: '#000000'}}>
+            <div key={admin.id} className="flex items-center justify-between p-4 border rounded-lg" style={{backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)'}}>
               <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-full ${
-                  admin.status === 'active' ? 'bg-white text-black' : 'bg-gray-600 text-white'
-                }`}>
+                <div className="p-2 rounded-full" style={{
+                  backgroundColor: admin.status === 'active' ? 'var(--accent-color)' : 'var(--bg-secondary)',
+                  color: 'var(--text-primary)'
+                }}>
                   <Shield className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-white">{admin.name}</h3>
-                  <p className="text-sm text-gray-300">{admin.email}</p>
+                  <p style={{color: 'var(--text-secondary)'}}>Email: {admin.email}</p>
+                  <p style={{color: 'var(--text-secondary)'}}>Role: {admin.role}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      admin.status === 'active' 
-                        ? 'bg-white text-black' 
-                        : 'bg-gray-600 text-white'
-                    }`}>
+                    <span className="px-2 py-1 text-xs rounded-full" style={{
+                      backgroundColor: admin.status === 'active' ? 'var(--accent-color)' : 'var(--bg-secondary)',
+                      color: 'var(--text-primary)'
+                    }}>
                       {admin.status}
                     </span>
                     {admin.permissions && (
-                      <span className="text-xs text-gray-300">
+                      <span className="text-xs" style={{color: 'var(--text-secondary)'}}>
                         {admin.permissions.length} permission(s)
                       </span>
                     )}
@@ -298,11 +305,8 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
                   <button
                     onClick={() => handleToggleAdminStatus(admin.id, admin.status)}
                     disabled={actionLoading === admin.id}
-                    className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md ${
-                      admin.status === 'active'
-                        ? 'bg-white text-black hover:bg-gray-200'
-                        : 'bg-white text-black hover:bg-gray-200'
-                    } disabled:opacity-50`}
+                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:opacity-80 disabled:opacity-50 transition-opacity"
+                    style={{backgroundColor: 'var(--accent-color)', color: 'var(--text-primary)'}}
                   >
                     {actionLoading === admin.id ? (
                       <RefreshCw className="h-4 w-4 animate-spin" />
@@ -327,12 +331,12 @@ const AdminManagement: React.FC<AdminManagementProps> = ({ className = '' }) => 
       </div>
       
       {/* Summary */}
-      <div className="mt-6 p-4 bg-gray-800 rounded-lg">
-        <div className="flex items-center gap-2 text-white">
+      <div className="mt-6 p-4 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <div className="flex items-center gap-2" style={{color: 'var(--text-primary)'}}>
           <Shield className="h-5 w-5" />
           <span className="font-medium">Summary</span>
         </div>
-        <div className="mt-2 text-sm text-gray-300">
+        <div className="mt-2 text-sm" style={{color: 'var(--text-secondary)'}}>
           <p>Total Admins: {admins.length}</p>
           <p>Active: {admins.filter(a => a.status === 'active').length}</p>
           <p>Inactive: {admins.filter(a => a.status === 'inactive').length}</p>

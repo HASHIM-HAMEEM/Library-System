@@ -201,7 +201,10 @@ const LoginPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6"
+         style={{
+           background: 'linear-gradient(to bottom right, var(--bg-secondary), var(--bg-primary), var(--bg-secondary))'
+         }}>
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -213,7 +216,12 @@ const LoginPage = () => {
       
       <div className="relative w-full max-w-md">
         {/* Main Container */}
-        <div className="bg-black/40 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 sm:p-8 shadow-2xl">
+        <div className="backdrop-blur-xl rounded-2xl p-6 sm:p-8 shadow-2xl"
+             style={{
+               backgroundColor: 'var(--bg-secondary)',
+               border: `1px solid var(--border-color)`,
+               boxShadow: `0 25px 50px -12px var(--shadow-color)`
+             }}>
           {/* Minimalistic Logo & Header */}
           <div className="text-center mb-6 sm:mb-8">
             {/* Custom Minimalistic Logo */}
@@ -235,10 +243,11 @@ const LoginPage = () => {
               <div className="absolute inset-0 rounded-xl bg-white/20 blur-xl -z-10"></div>
             </div>
             
-            <h1 className="text-xl sm:text-2xl font-semibold text-white mb-2">
+            <h1 className="text-xl sm:text-2xl font-semibold mb-2"
+                style={{color: 'var(--text-primary)'}}>
               Welcome back
             </h1>
-            <p className="text-gray-400 text-sm">
+            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
               Sign in to your admin dashboard
             </p>
           </div>
@@ -247,7 +256,7 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
                 Email
               </label>
               <div className="relative">
@@ -263,24 +272,35 @@ const LoginPage = () => {
                     logFieldChange('email', newEmail);
                     logUserInteraction('input_change', 'email_field', { value: newEmail });
                   }}
-                  onFocus={() => {
+                  className="w-full px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 backdrop-blur-sm text-sm sm:text-base"
+                  style={{
+                    backgroundColor: 'var(--bg-tertiary)',
+                    border: `1px solid var(--border-color)`,
+                    color: 'var(--text-primary)'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--accent-primary)';
+                    e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-primary)20`;
                     logUserInteraction('focus', 'email_field');
                     resetSessionTimeout();
                   }}
-                  onBlur={() => logUserInteraction('blur', 'email_field')}
-                  className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/30 transition-all duration-200 backdrop-blur-sm text-sm sm:text-base"
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border-color)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    logUserInteraction('blur', 'email_field');
+                  }}
                   placeholder="Enter your email"
                   required
                   disabled={isBlocked}
                   maxLength={254}
                 />
-                <Mail className="absolute right-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                <Mail className="absolute right-4 top-1/2 transform -translate-y-1/2 h-4 w-4" style={{color: 'var(--text-muted)'}} />
               </div>
             </div>
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
                 Password
               </label>
               <div className="relative">
@@ -296,12 +316,23 @@ const LoginPage = () => {
                     logFieldChange('password', '***hidden***');
                     logUserInteraction('input_change', 'password_field', { hasValue: !!newPassword });
                   }}
-                  onFocus={() => {
+                  className="w-full px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 backdrop-blur-sm pr-10 sm:pr-12 text-sm sm:text-base"
+                  style={{
+                    backgroundColor: 'var(--bg-tertiary)',
+                    border: `1px solid var(--border-color)`,
+                    color: 'var(--text-primary)'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--accent-primary)';
+                    e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-primary)20`;
                     logUserInteraction('focus', 'password_field');
                     resetSessionTimeout();
                   }}
-                  onBlur={() => logUserInteraction('blur', 'password_field')}
-                  className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/30 transition-all duration-200 backdrop-blur-sm pr-10 sm:pr-12 text-sm sm:text-base"
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border-color)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    logUserInteraction('blur', 'password_field');
+                  }}
                   placeholder="Enter your password"
                   required
                   disabled={isBlocked}
@@ -315,7 +346,10 @@ const LoginPage = () => {
                     logClick('toggle_password_visibility', { visible: newShowPassword });
                     logUserInteraction('click', 'password_toggle_button', { action: newShowPassword ? 'show' : 'hide' });
                   }}
-                  className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+                  className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 transition-colors"
+                  style={{ color: 'var(--text-muted)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -345,7 +379,20 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading || isBlocked}
-              className="w-full py-2.5 sm:py-3 bg-white text-black font-medium rounded-xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base"
+              className="w-full py-2.5 sm:py-3 font-medium rounded-xl focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base"
+              style={{
+                backgroundColor: 'var(--accent-primary)',
+                color: 'white',
+                boxShadow: '0 4px 14px 0 var(--accent-primary)40'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.9';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
               onClick={() => {
                 logClick('login_submit_button', { 
                   disabled: loading || isBlocked,
@@ -358,7 +405,7 @@ const LoginPage = () => {
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }}></div>
                   <span className="text-sm sm:text-base">Signing in...</span>
                 </div>
               ) : (
@@ -375,7 +422,10 @@ const LoginPage = () => {
                   logClick('show_forgot_password');
                   logUserInteraction('click', 'forgot_password_link');
                 }}
-                className="text-xs sm:text-sm text-gray-400 hover:text-gray-300 transition-colors duration-200"
+                className="text-xs sm:text-sm transition-colors duration-200"
+                style={{ color: 'var(--text-muted)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
               >
                 Forgot your password?
               </button>
@@ -383,10 +433,10 @@ const LoginPage = () => {
           </form>
 
           {/* Security Notice */}
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl bg-gray-900/30 border border-gray-800/50 backdrop-blur-sm">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl backdrop-blur-sm" style={{ backgroundColor: 'var(--bg-secondary)', border: `1px solid var(--border-color)` }}>
             <div className="flex items-center justify-center gap-2">
-              <Shield className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
-              <span className="text-xs text-gray-400 text-center">
+              <Shield className="h-3 w-3 sm:h-4 sm:w-4" style={{ color: 'var(--text-muted)' }} />
+              <span className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
                 Secure admin access • Auto-logout after 30 minutes
               </span>
             </div>
@@ -395,10 +445,10 @@ const LoginPage = () => {
 
         {/* Modern Footer */}
         <div className="text-center mt-4 sm:mt-6">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
             GStore Admin Portal
           </p>
-          <p className="text-xs text-gray-600 mt-1">
+          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
             Secure • Reliable • Modern
           </p>
         </div>
@@ -406,21 +456,21 @@ const LoginPage = () => {
 
       {/* Modern Forgot Password Modal */}
       {showForgotPassword && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 z-50">
-          <div className="bg-black/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl">
+        <div className="fixed inset-0 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
+          <div className="backdrop-blur-xl rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl" style={{ backgroundColor: 'var(--bg-primary)', border: `1px solid var(--border-color)` }}>
             <div className="text-center mb-4 sm:mb-6">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 rounded-xl bg-gradient-to-br from-white to-gray-300 flex items-center justify-center shadow-lg">
-                <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-black" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 rounded-xl flex items-center justify-center shadow-lg" style={{ background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))' }}>
+                <Mail className="h-5 w-5 sm:h-6 sm:w-6" style={{ color: 'white' }} />
               </div>
-              <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">Reset Password</h2>
-              <p className="text-gray-400 text-xs sm:text-sm">
+              <h2 className="text-lg sm:text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Reset Password</h2>
+              <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
                 Enter your email to receive a password reset link
               </p>
             </div>
 
             <form onSubmit={handleForgotPassword} className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <label className="block text-xs sm:text-sm font-medium text-gray-300">
+                <label className="block text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                   Email
                 </label>
                 <div className="relative">
@@ -433,13 +483,26 @@ const LoginPage = () => {
                       logFieldChange('forgot_email', newEmail);
                       logUserInteraction('input_change', 'forgot_email_field', { value: newEmail });
                     }}
-                    onFocus={() => logUserInteraction('focus', 'forgot_email_field')}
-                    onBlur={() => logUserInteraction('blur', 'forgot_email_field')}
-                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/30 transition-all duration-200 backdrop-blur-sm text-sm sm:text-base"
+                    onFocus={(e) => {
+                      logUserInteraction('focus', 'forgot_email_field');
+                      e.currentTarget.style.borderColor = 'var(--accent-primary)';
+                      e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-primary)20`;
+                    }}
+                    onBlur={(e) => {
+                      logUserInteraction('blur', 'forgot_email_field');
+                      e.currentTarget.style.borderColor = 'var(--border-color)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 backdrop-blur-sm text-sm sm:text-base"
+                    style={{
+                      backgroundColor: 'var(--bg-tertiary)',
+                      border: `1px solid var(--border-color)`,
+                      color: 'var(--text-primary)'
+                    }}
                     placeholder="Enter your email"
                     required
                   />
-                  <Mail className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                  <Mail className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 h-4 w-4" style={{ color: 'var(--text-muted)' }} />
                 </div>
               </div>
 
@@ -452,18 +515,41 @@ const LoginPage = () => {
                     logClick('cancel_forgot_password');
                     logUserInteraction('click', 'cancel_forgot_password_button');
                   }}
-                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl border border-gray-700/50 text-gray-300 hover:bg-gray-800/50 hover:text-white transition-all duration-200 backdrop-blur-sm text-sm sm:text-base"
+                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl transition-all duration-200 backdrop-blur-sm text-sm sm:text-base"
+                  style={{
+                    border: `1px solid var(--border-color)`,
+                    color: 'var(--text-secondary)',
+                    backgroundColor: 'transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--text-secondary)';
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={forgotLoading}
-                  className="flex-1 py-2.5 sm:py-3 bg-white text-black font-medium rounded-xl hover:bg-gray-100 disabled:opacity-50 transition-all duration-200 shadow-lg text-sm sm:text-base"
+                  className="flex-1 py-2.5 sm:py-3 font-medium rounded-xl disabled:opacity-50 transition-all duration-200 shadow-lg text-sm sm:text-base"
+                  style={{
+                    backgroundColor: 'var(--accent-primary)',
+                    color: 'white'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '0.9';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '1';
+                  }}
                 >
                   {forgotLoading ? (
                     <div className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }}></div>
                       <span className="text-sm sm:text-base">Sending...</span>
                     </div>
                   ) : (
