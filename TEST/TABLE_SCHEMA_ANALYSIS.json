@@ -1,0 +1,90 @@
+{
+  "timestamp": "2025-08-01T06:42:37.684Z",
+  "publicTables": {
+    "library_users": {
+      "exists": true,
+      "recordCount": 1,
+      "structure": "Available",
+      "sampleColumns": [
+        "id",
+        "name",
+        "subscription_valid_until",
+        "qr_code",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "admin_meta": {
+      "exists": true,
+      "recordCount": 2,
+      "structure": "Available",
+      "sampleColumns": [
+        "user_id",
+        "name",
+        "last_login",
+        "created_at"
+      ]
+    },
+    "admin_invites": {
+      "exists": true,
+      "recordCount": 0,
+      "structure": "Available"
+    },
+    "qr_codes": {
+      "exists": true,
+      "recordCount": 0,
+      "structure": "Available"
+    },
+    "attendance_logs": {
+      "exists": true,
+      "recordCount": 0,
+      "structure": "Available"
+    },
+    "qr_scan_logs": {
+      "exists": true,
+      "recordCount": 0,
+      "structure": "Available"
+    },
+    "scan_logs": {
+      "exists": true,
+      "recordCount": 0,
+      "structure": "Available"
+    },
+    "subscription_history": {
+      "exists": true,
+      "recordCount": 0,
+      "structure": "Available"
+    }
+  },
+  "authTables": {
+    "users": {
+      "exists": true,
+      "recordCount": 1,
+      "structure": "Auth API access",
+      "note": "Accessed via Supabase Auth API"
+    },
+    "identities": {
+      "exists": true,
+      "recordCount": "Unknown",
+      "structure": "System managed",
+      "note": "Managed by Supabase Auth system"
+    },
+    "sessions": {
+      "exists": true,
+      "recordCount": "Unknown",
+      "structure": "System managed",
+      "note": "Managed by Supabase Auth system"
+    },
+    "refresh_tokens": {
+      "exists": true,
+      "recordCount": "Unknown",
+      "structure": "System managed",
+      "note": "Managed by Supabase Auth system"
+    }
+  },
+  "summary": {
+    "publicTableCount": 8,
+    "authTableCount": 4,
+    "totalRecords": 3
+  }
+}

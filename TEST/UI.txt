@@ -1,0 +1,394 @@
+import React, { useState } from 'react';
+import { 
+  Users, 
+  Calendar, 
+  TrendingUp, 
+  Download, 
+  Search, 
+  Filter, 
+  LogOut, 
+  User, 
+  CreditCard, 
+  Scan, 
+  QrCode, 
+  UserPlus, 
+  BarChart3, 
+  Activity, 
+  Menu, 
+  TestTube, 
+  Eye, 
+  Play, 
+  RefreshCw, 
+  Camera,
+  Settings,
+  Bell,
+  ChevronDown,
+  Sparkles,
+  Code,
+  GitBranch,
+  Zap,
+  Shield,
+  Globe,
+  Plus,
+  ExternalLink,
+  MessageSquare,
+  FileText,
+  BarChart,
+  Bug,
+  Users2,
+  Mail,
+  BookOpen,
+  Clock
+} from 'lucide-react';
+
+const LibraryDashboard = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedTimeframe, setSelectedTimeframe] = useState('Jul 22 - Jul 30');
+
+  const stats = {
+    totalMembers: 375,
+    activeMembers: 89,
+    todayVisits: 124,
+    currentlyInside: 23
+  };
+
+  const members = [
+    { id: '1', name: 'John Doe', email: 'john@example.com', membership_status: 'active', membership_type: 'monthly' },
+    { id: '2', name: 'Jane Smith', email: 'jane@example.com', membership_status: 'expired', membership_type: 'weekly' },
+    { id: '3', name: 'Mike Johnson', email: 'mike@example.com', membership_status: 'active', membership_type: 'daily' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-black text-white flex">
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-80 transform transition-transform duration-300 ease-in-out ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      } lg:translate-x-0 lg:static lg:inset-0 bg-black border-r border-gray-800`}>
+        
+        {/* Logo */}
+        <div className="flex items-center h-16 px-6">
+          <div className="w-8 h-8 rounded bg-white flex items-center justify-center">
+            <BookOpen className="w-5 h-5 text-black" />
+          </div>
+          <span className="ml-3 text-lg font-semibold">Library System</span>
+        </div>
+
+        {/* User Info */}
+        <div className="px-6 mb-8">
+          <div className="flex items-center space-x-3">
+            <h2 className="text-lg font-semibold text-white">Library Admin</h2>
+            <ExternalLink className="h-4 w-4 text-gray-400" />
+          </div>
+          <p className="text-sm text-gray-400 mt-1">Administrator • admin@library.edu</p>
+        </div>
+        
+        {/* Navigation */}
+        <nav className="px-6">
+          <div className="space-y-2">
+            <a href="#" className="flex items-center px-3 py-2 text-sm text-white bg-gray-800 rounded-lg">
+              <BarChart3 className="h-4 w-4 mr-3" />
+              Dashboard
+            </a>
+            <a href="#" className="flex items-center px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+              <QrCode className="h-4 w-4 mr-3" />
+              QR Scanner
+            </a>
+            <a href="#" className="flex items-center px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+              <Users className="h-4 w-4 mr-3" />
+              Members
+            </a>
+            <a href="#" className="flex items-center px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+              <BookOpen className="h-4 w-4 mr-3" />
+              Books
+            </a>
+            <a href="#" className="flex items-center px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+              <Settings className="h-4 w-4 mr-3" />
+              Settings
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 lg:pl-0">
+        {/* Top Navigation */}
+        <div className="h-16 flex items-center justify-between px-8 border-b border-gray-800">
+          <div className="flex items-center space-x-8">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden text-gray-400 hover:text-white"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+            <nav className="flex items-center space-x-8">
+              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Members</a>
+              <a href="#" className="text-white text-sm font-medium">Dashboard</a>
+            </nav>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <span className="text-sm text-gray-400">Live</span>
+          </div>
+        </div>
+
+        {/* Dashboard Content */}
+        <div className="p-8">
+          {/* Library Overview */}
+          <div className="flex items-start justify-between mb-12">
+            <div className="flex-1">
+              <div className="flex items-center space-x-3 mb-2">
+                <h1 className="text-xl font-semibold text-white">Library Management System</h1>
+                <span className="px-2 py-1 text-xs font-medium bg-green-500/10 text-green-400 rounded border border-green-500/20">
+                  Active
+                </span>
+              </div>
+              <p className="text-gray-400 text-sm mb-6">
+                Complete library management with member tracking, book inventory, and access control.
+              </p>
+              <button className="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors border border-gray-700">
+                Library Settings
+              </button>
+            </div>
+            
+            <div className="text-right">
+              <h3 className="text-lg font-semibold text-white mb-2">Daily Statistics</h3>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-gray-400">Books Issued</p>
+                  <p className="text-white font-semibold">42</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Returns</p>
+                  <p className="text-white font-semibold">38</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Time Filter */}
+          <div className="mb-8">
+            <div className="flex items-center space-x-4">
+              <button className="px-3 py-1 text-sm text-gray-400 hover:text-white transition-colors">1d</button>
+              <button className="px-3 py-1 text-sm text-gray-400 hover:text-white transition-colors">7d</button>
+              <button className="px-3 py-1 text-sm text-gray-400 hover:text-white transition-colors">30d</button>
+              <button className="px-3 py-1 text-sm bg-gray-800 text-white rounded border border-gray-700">
+                {selectedTimeframe}
+              </button>
+            </div>
+          </div>
+
+          {/* Analytics Section */}
+          <div className="mb-8">
+            <h2 className="text-lg font-semibold text-white mb-6">Library Analytics</h2>
+            
+            <div className="grid grid-cols-2 gap-8 mb-8">
+              <div className="p-6 rounded-lg bg-gray-900 border border-gray-800">
+                <div className="text-3xl font-bold text-white mb-2">375</div>
+                <div className="text-sm text-gray-400">Total Members</div>
+              </div>
+              
+              <div className="p-6 rounded-lg bg-gray-900 border border-gray-800">
+                <div className="text-3xl font-bold text-white mb-2">124</div>
+                <div className="text-sm text-gray-400">Today's Visits</div>
+              </div>
+            </div>
+
+            {/* Chart */}
+            <div className="h-64 rounded-lg bg-gray-900 border border-gray-800 p-6">
+              <div className="h-full flex items-end justify-between">
+                {/* Y-axis labels */}
+                <div className="flex flex-col justify-between h-full text-xs text-gray-500 pr-4">
+                  <span>400</span>
+                  <span>300</span>
+                  <span>200</span>
+                  <span>100</span>
+                  <span>0</span>
+                </div>
+                
+                {/* Chart area */}
+                <div className="flex-1 h-full relative">
+                  {/* Grid lines */}
+                  <div className="absolute inset-0">
+                    {[...Array(5)].map((_, i) => (
+                      <div 
+                        key={i} 
+                        className="absolute w-full border-t border-gray-800" 
+                        style={{ top: `${i * 25}%` }}
+                      />
+                    ))}
+                    {[...Array(8)].map((_, i) => (
+                      <div 
+                        key={i} 
+                        className="absolute h-full border-l border-gray-800" 
+                        style={{ left: `${i * 14.28}%` }}
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* Chart line */}
+                  <svg className="absolute inset-0 w-full h-full">
+                    <path
+                      d="M 0 240 L 100 220 L 200 200 L 300 160 L 400 120 L 500 80 L 600 40"
+                      stroke="#ffffff"
+                      strokeWidth="2"
+                      fill="none"
+                      className="opacity-80"
+                    />
+                    <circle cx="600" cy="40" r="3" fill="#ffffff" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Library Features */}
+          <div>
+            {/* QR Scanner Card */}
+            <div className="mb-8">
+              <div className="p-6 rounded-xl bg-gray-900 border border-gray-700 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-bold mb-2">Member Access Scanner</h2>
+                    <p className="text-gray-400">Scan member QR codes for entry/exit tracking</p>
+                  </div>
+                  <button className="flex items-center space-x-2 px-4 py-2 bg-white text-black font-medium rounded-lg hover:bg-gray-100 transition-colors">
+                    <Scan className="h-5 w-5" />
+                    <span>Open Scanner</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
+              {/* Members Management */}
+              <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-lg font-semibold text-white">Members Management</h3>
+                  <button className="flex items-center space-x-2 px-4 py-2 bg-white text-black text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors">
+                    <Download className="h-4 w-4" />
+                    <span>Export</span>
+                  </button>
+                </div>
+                
+                {/* Search and Filter */}
+                <div className="flex space-x-4 mb-6">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search members..."
+                      className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent"
+                    />
+                  </div>
+                  <div className="relative">
+                    <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <select className="pl-10 pr-8 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent">
+                      <option value="all">All Status</option>
+                      <option value="active">Active</option>
+                      <option value="expired">Expired</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  {members.map((member) => (
+                    <div key={member.id} className="flex items-center justify-between p-4 rounded-lg bg-gray-800 border border-gray-700">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-white">{member.name}</h4>
+                        <p className="text-sm text-gray-400">{member.email}</p>
+                        <div className="flex items-center mt-2">
+                          <span className={`px-2 py-1 text-xs rounded-full ${
+                            member.membership_status === 'active' 
+                              ? 'bg-gray-700 text-white border border-gray-600'
+                              : member.membership_status === 'expired'
+                              ? 'bg-gray-800 text-gray-400 border border-gray-700'
+                              : 'bg-gray-800 text-gray-300 border border-gray-700'
+                          }`}>
+                            {member.membership_status}
+                          </span>
+                          {member.membership_type && (
+                            <span className="ml-2 text-xs text-gray-500">
+                              {member.membership_type}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="ml-4">
+                        <select className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-white text-xs focus:outline-none focus:ring-2 focus:ring-white/20">
+                          <option value="" disabled>Update</option>
+                          <option value="active|daily">Active - Daily</option>
+                          <option value="active|weekly">Active - Weekly</option>
+                          <option value="active|monthly">Active - Monthly</option>
+                          <option value="expired">Expired</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Recent Activity */}
+              <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-lg font-semibold text-white">Recent Library Activity</h3>
+                  <div className="text-sm text-gray-400">Last 10 activities</div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-white">Alice Brown</h4>
+                      <p className="text-sm text-gray-400">alice@example.com</p>
+                      <p className="text-xs mt-1 text-gray-500">
+                        Entry: {new Date().toLocaleString()}
+                      </p>
+                    </div>
+                    <div className="text-right ml-4">
+                      <p className="text-sm font-medium text-white">Reading</p>
+                      <span className="px-2 py-1 text-xs rounded-full bg-gray-700 text-white border border-gray-600">
+                        In Library
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-white">Bob Wilson</h4>
+                      <p className="text-sm text-gray-400">bob@example.com</p>
+                      <p className="text-xs mt-1 text-gray-500">
+                        Entry: {new Date(Date.now() - 3600000).toLocaleString()} • Exit: {new Date().toLocaleTimeString()}
+                      </p>
+                    </div>
+                    <div className="text-right ml-4">
+                      <p className="text-sm font-medium text-white">60m</p>
+                      <span className="px-2 py-1 text-xs rounded-full bg-gray-800 text-gray-300 border border-gray-700">
+                        Completed
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-white">Carol Davis</h4>
+                      <p className="text-sm text-gray-400">Book Issue: "Introduction to AI"</p>
+                      <p className="text-xs mt-1 text-gray-500">
+                        Issued: {new Date(Date.now() - 7200000).toLocaleString()}
+                      </p>
+                    </div>
+                    <div className="text-right ml-4">
+                      <p className="text-sm font-medium text-white">Due: 7 days</p>
+                      <span className="px-2 py-1 text-xs rounded-full bg-blue-900 text-blue-300 border border-blue-700">
+                        Book Issued
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LibraryDashboard;

@@ -1,0 +1,53 @@
+{
+  "name": "library-management-system-tests",
+  "version": "1.0.0",
+  "description": "Complete Library Management System implementation with Flutter and Web Admin integration tests",
+  "main": "setup_library_system.js",
+  "scripts": {
+    "setup": "node setup_library_system.js",
+    "test:flutter": "node flutter_integration_test.js",
+    "test:admin": "node web_admin_integration_test.js",
+    "test:all": "npm run setup && npm run test:flutter && npm run test:admin",
+    "migrate:data": "node setup_library_system.js --migrate-data",
+    "create:admin": "node web_admin_integration_test.js --create-admin",
+    "create:user": "node web_admin_integration_test.js --create-user",
+    "create:flutter-user": "node flutter_integration_test.js --create-user"
+  },
+  "keywords": [
+    "library",
+    "management",
+    "supabase",
+    "flutter",
+    "qr-code",
+    "real-time",
+    "admin",
+    "integration",
+    "testing"
+  ],
+  "author": "Library Management System",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/library-management-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/library-management-system/issues"
+  },
+  "homepage": "https://github.com/your-org/library-management-system#readme",
+  "files": [
+    "*.js",
+    "*.sql",
+    "*.md",
+    "README.md"
+  ]
+}

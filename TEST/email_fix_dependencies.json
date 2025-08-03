@@ -1,0 +1,14 @@
+{
+  "name": "supabase-email-fix-test",
+  "version": "1.0.0",
+  "description": "Testing and implementation scripts for Supabase email fix",
+  "main": "implement_email_fix.cjs",
+  "scripts": {
+    "test": "node implement_email_fix.cjs",
+    "setup": "../setup_email_fix.sh setup"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.53.0",
+    "dotenv": "^17.2.1"
+  }
+}
