@@ -25,6 +25,8 @@ dist-ssr
 .firebaserc
 firebase-debug.log
 firestore-debug.log
+*firebase-adminsdk*.json
+*service-account*.json
 
 # Test files and temporary scripts
 *.cjs
