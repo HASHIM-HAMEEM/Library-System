@@ -2,18 +2,144 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // 1️⃣ Each user may read/write only their own profile
-    match /user_profiles/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // 2️⃣ Helper function to detect admin role
+    // 🔧 Helper function to detect admin role
     function isAdmin() {
       return request.auth != null &&
+             exists(/databases/$(database)/documents/user_profiles/$(request.auth.uid)) &&
              get(/databases/$(database)/documents/user_profiles/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // 3️⃣ Admins may read/write everything
+    // 🔧 Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // 🔧 Helper function to check if user owns the resource
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // 👤 User profiles collection - unified rules for Flutter and Web
+    match /user_profiles/{userId} {
+      // Users can read/write their own profile, admins can read/write all
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId) || isAdmin();
+      // Allow creation during signup
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // 📱 QR codes collection - unified rules for Flutter and Web
+    match /qr_codes/{qrId} {
+      // All authenticated users can read QR codes for validation
+      allow read: if isAuthenticated();
+      // Users can create QR codes for themselves
+      allow create: if isAuthenticated() && 
+                       request.resource.data.keys().hasAll(['userId']) &&
+                       request.resource.data.userId == request.auth.uid;
+      // Users can update/delete their own QR codes, admins can manage all
+      allow update, delete: if isAuthenticated() && 
+                              (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // 📊 Scan logs collection - unified rules for Flutter and Web
+    match /scan_logs/{logId} {
+      // All authenticated users can read/write scan logs
+      allow read, write: if isAuthenticated();
+      // Ensure userId matches authenticated user on create
+      allow create: if isAuthenticated() && 
+                       (!request.resource.data.keys().hasAny(['userId']) || 
+                        request.resource.data.userId == request.auth.uid);
+    }
+
+    // 🚪 Entry/exit logs collection - unified rules for Flutter and Web
+    match /entry_exit_logs/{logId} {
+      // All authenticated users can read/write entry/exit logs
+      allow read, write: if isAuthenticated();
+      // Ensure userId matches authenticated user on create
+      allow create: if isAuthenticated() && 
+                       (!request.resource.data.keys().hasAny(['userId']) || 
+                        request.resource.data.userId == request.auth.uid);
+    }
+
+    // 💳 Subscriptions collection - unified rules for Flutter and Web
+    match /subscriptions/{subId} {
+      // Users can read their own subscriptions, admins can read all
+      allow read: if isAuthenticated() && 
+                     (resource.data.user_id == request.auth.uid || isAdmin());
+      // Only admins can write subscriptions
+      allow write: if isAdmin();
+    }
+
+    // 📈 Dashboard stats collection - admin only
+    match /dashboard_stats/{statId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ⚙️ System settings collection - admin only
+    match /system_settings/{settingId} {
+      allow read, write: if isAdmin();
+    }
+
+    // 📊 Analytics collection - admin only
+    match /analytics/{analyticsId} {
+      allow read, write: if isAdmin();
+    }
+
+    // 📚 Books collection - for library management
+    match /books/{bookId} {
+      // All authenticated users can read books
+      allow read: if isAuthenticated();
+      // Only admins can write books
+      allow write: if isAdmin();
+    }
+
+    // 📖 Book loans collection - for library management
+    match /book_loans/{loanId} {
+      // Users can read their own loans, admins can read all
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin());
+      // Users can create loans for themselves, admins can manage all
+      allow create: if isAuthenticated() && 
+                       request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // 🔔 Notifications collection - for user notifications
+    match /notifications/{notificationId} {
+      // Users can read their own notifications, admins can read all
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin());
+      // Only admins can write notifications
+      allow write: if isAdmin();
+    }
+
+    // 🏢 Organizations collection - for multi-tenant support
+    match /organizations/{orgId} {
+      // All authenticated users can read organizations
+      allow read: if isAuthenticated();
+      // Only admins can write organizations
+      allow write: if isAdmin();
+    }
+
+    // 🔑 API keys collection - admin only
+    match /api_keys/{keyId} {
+      allow read, write: if isAdmin();
+    }
+
+    // 📱 App settings collection - for mobile app configuration
+    match /app_settings/{settingId} {
+      // All authenticated users can read app settings
+      allow read: if isAuthenticated();
+      // Only admins can write app settings
+      allow write: if isAdmin();
+    }
+
+    // 🔒 Security logs collection - admin only
+    match /security_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    // 🎯 Catch-all rule for admin access to any collection
     match /{document=**} {
       allow read, write: if isAdmin();
     }

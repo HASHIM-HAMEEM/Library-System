@@ -202,9 +202,9 @@ const AnalyticsScreen: React.FC = () => {
       const total = active + expired + inactive;
       if (total > 0) {
         setSubscriptionTypes([
-          { name: 'Active', count: active, percentage: (active / total) * 100, color: 'var(--success-color)' },
-          { name: 'Expired', count: expired, percentage: (expired / total) * 100, color: 'var(--error-color)' },
-          { name: 'Inactive', count: inactive, percentage: (inactive / total) * 100, color: 'var(--text-secondary)' }
+          { name: 'Active', count: active, percentage: (active / total) * 100, color: '#10B981' },
+          { name: 'Expired', count: expired, percentage: (expired / total) * 100, color: '#EF4444' },
+          { name: 'Inactive', count: inactive, percentage: (inactive / total) * 100, color: '#6B7280' }
         ]);
       }
     }
@@ -457,7 +457,7 @@ const AnalyticsScreen: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div style={{color: 'var(--text-primary)'}}>Loading analytics...</div>
+        <div className="text-gray-900 dark:text-white">Loading analytics...</div>
       </div>
     );
   }
@@ -466,70 +466,70 @@ const AnalyticsScreen: React.FC = () => {
       {/* Analytics Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {/* Total Visits */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Total Visits</p>
-              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{totalVisits.toLocaleString()}</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Visits</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{totalVisits.toLocaleString()}</p>
             </div>
-            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
-              <Calendar className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
+            <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800">
+              <Calendar className="w-6 h-6 text-gray-900 dark:text-white" />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <span style={{color: 'var(--text-secondary)'}}>All time recorded</span>
+            <span className="text-gray-700 dark:text-gray-300">All time recorded</span>
           </div>
         </div>
 
         {/* Unique Users */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Unique Users</p>
-              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{uniqueUsers.toLocaleString()}</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Unique Users</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{uniqueUsers.toLocaleString()}</p>
             </div>
-            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
-              <Users className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
+            <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800">
+              <Users className="w-6 h-6 text-gray-900 dark:text-white" />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
-            <span style={{color: 'var(--text-secondary)'}}>Total scanned users</span>
+            <span className="text-gray-700 dark:text-gray-300">Total scanned users</span>
           </div>
         </div>
 
         {/* Active Users */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>Active Users</p>
-              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>{activeUsers}</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Active Users</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeUsers}</p>
             </div>
-            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
-              <Activity className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
+            <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800">
+              <Activity className="w-6 h-6 text-gray-900 dark:text-white" />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
             <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-            <span className="font-medium" style={{color: 'var(--text-primary)'}}>Currently in library</span>
+            <span className="font-medium text-gray-900 dark:text-white">Currently in library</span>
           </div>
         </div>
 
         {/* QR Scans Today */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>QR Scans Today</p>
-              <p className="text-2xl font-bold" style={{color: 'var(--text-primary)'}}>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">QR Scans Today</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {qrScanStats.length > 0 ? qrScanStats[qrScanStats.length - 1]?.total || 0 : 0}
               </p>
             </div>
-            <div className="p-3 rounded-full" style={{backgroundColor: 'var(--bg-tertiary)'}}>
-              <QrCode className="w-6 h-6" style={{color: 'var(--text-primary)'}} />
+            <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800">
+              <QrCode className="w-6 h-6 text-gray-900 dark:text-white" />
             </div>
           </div>
           <div className="mt-4 flex items-center text-sm">
             <CheckCircle className="w-4 h-4 text-green-500 mr-1" />
-            <span className="font-medium" style={{color: 'var(--text-primary)'}}>
+            <span className="font-medium text-gray-900 dark:text-white">
               {qrScanStats.length > 0 ? qrScanStats[qrScanStats.length - 1]?.successful || 0 : 0} successful
             </span>
           </div>
@@ -538,17 +538,16 @@ const AnalyticsScreen: React.FC = () => {
 
       {/* Export Section */}
       <div className="mb-6">
-        <div className="p-4 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <div className="p-4 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold mb-1" style={{color: 'var(--text-primary)'}}>Export Analytics Data</h3>
-              <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Download comprehensive analytics reports</p>
+              <h3 className="text-lg font-semibold mb-1 text-gray-900 dark:text-white">Export Analytics Data</h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300">Download comprehensive analytics reports</p>
             </div>
             <div className="flex gap-3">
                 <button
                   onClick={() => handleExportAnalytics('json')}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
-                  style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', borderWidth: '1px', borderColor: 'var(--border-color)'}}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors bg-transparent text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700"
                   onMouseEnter={(e) => (e.target as HTMLButtonElement).style.opacity = '0.8'}
                   onMouseLeave={(e) => (e.target as HTMLButtonElement).style.opacity = '1'}
                 >
@@ -557,8 +556,7 @@ const AnalyticsScreen: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleExportAnalytics('csv')}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
-                  style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', borderWidth: '1px', borderColor: 'var(--border-color)'}}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors bg-transparent text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700"
                   onMouseEnter={(e) => (e.target as HTMLButtonElement).style.opacity = '0.8'}
                   onMouseLeave={(e) => (e.target as HTMLButtonElement).style.opacity = '1'}
                 >
@@ -573,8 +571,8 @@ const AnalyticsScreen: React.FC = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Daily Visits Chart */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
-          <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Daily Visits</h3>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Daily Visits</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={dailyVisits}>
@@ -587,10 +585,10 @@ const AnalyticsScreen: React.FC = () => {
                 <YAxis stroke="#9CA3AF" tick={{ fontSize: 12 }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    border: 'none',
+                    backgroundColor: 'var(--tooltip-bg, #ffffff)',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
-                    color: 'var(--text-primary)'
+                    color: 'var(--tooltip-text, #000000)'
                   }}
                   formatter={(value) => [value, 'Visits']}
                 />
@@ -608,8 +606,8 @@ const AnalyticsScreen: React.FC = () => {
         </div>
 
         {/* Subscription Types Breakdown */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
-          <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Subscription Types</h3>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Subscription Types</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -629,10 +627,10 @@ const AnalyticsScreen: React.FC = () => {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    border: 'none',
+                    backgroundColor: 'var(--tooltip-bg, #ffffff)',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
-                    color: 'var(--text-primary)'
+                    color: 'var(--tooltip-text, #111827)'
                   }}
                   formatter={(value, name) => [value, name]}
                 />
@@ -649,9 +647,9 @@ const AnalyticsScreen: React.FC = () => {
                     className="w-3 h-3 rounded-full" 
                     style={{ backgroundColor: item.color }}
                   ></div>
-                  <span className="text-sm" style={{color: 'var(--text-secondary)'}}>{item.name}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{item.name}</span>
                 </div>
-                <div className="text-sm" style={{color: 'var(--text-muted)'}}>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   {item.count} users
                 </div>
               </div>
@@ -660,8 +658,8 @@ const AnalyticsScreen: React.FC = () => {
         </div>
 
         {/* QR Scan Statistics */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
-          <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>QR Scan Statistics</h3>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">QR Scan Statistics</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={qrScanStats}>
@@ -674,10 +672,10 @@ const AnalyticsScreen: React.FC = () => {
                 <YAxis stroke="#9CA3AF" tick={{ fontSize: 12 }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    border: 'none',
+                    backgroundColor: 'var(--tooltip-bg, #ffffff)',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
-                    color: 'var(--text-primary)'
+                    color: 'var(--tooltip-text, #111827)'
                   }}
                 />
                 <Bar dataKey="successful" fill="#10B981" name="Successful" />
@@ -688,8 +686,8 @@ const AnalyticsScreen: React.FC = () => {
         </div>
 
         {/* Entry Time Heatmap */}
-        <div className="p-6 rounded-lg" style={{backgroundColor: 'var(--bg-secondary)'}}>
-          <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Peak Entry Times</h3>
+        <div className="p-6 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Peak Entry Times</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={entryTimeHeat}>
@@ -703,10 +701,10 @@ const AnalyticsScreen: React.FC = () => {
                 <YAxis stroke="#9CA3AF" tick={{ fontSize: 12 }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    border: 'none',
+                    backgroundColor: 'var(--tooltip-bg, #ffffff)',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
-                    color: 'var(--text-primary)'
+                    color: 'var(--tooltip-text, #111827)'
                   }}
                   labelFormatter={(value) => `${value}:00 - ${value + 1}:00`}
                   formatter={(value) => [value, 'Entries']}

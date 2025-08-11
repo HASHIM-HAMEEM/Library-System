@@ -16,6 +16,7 @@ import {
   Timestamp 
 } from 'firebase/firestore';
 import CryptoJS from 'crypto-js';
+import KeyService from './keyService';
 
 interface QRData {
   userId: string;
@@ -62,7 +63,7 @@ interface User {
 }
 
 class QRCodeService {
-  private static readonly ENCRYPTION_KEY = 'LibraryQRKey2024!@#$%^&*()_+{}|:<>?[]\\;\',./~`';
+  // ENCRYPTION_KEY is now managed by KeyService
 
   /**
    * Generate QR code for a user
@@ -374,32 +375,53 @@ class QRCodeService {
   }
 
   /**
-   * Encrypt data using AES
+   * Encrypt data using AES-256-CBC with zero IV
    */
   private static encryptData(data: string): string {
-    // Simple base64 encoding for demo - use proper encryption in production
-    // This should match the Flutter app's encryption method
-    const combined = data + this.ENCRYPTION_KEY;
-    return btoa(combined);
+    // Pad/trim key to exactly 32 bytes for AES-256
+    const rawKey = KeyService.getCachedKeySync();
+    const key = CryptoJS.enc.Utf8.parse(rawKey.padEnd(32, '0').slice(0, 32));
+    // Use 16-byte zero IV as specified
+    const iv = CryptoJS.enc.Utf8.parse('\0'.repeat(16));
+    
+    const encrypted = CryptoJS.AES.encrypt(data, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    });
+    
+    return encrypted.toString();
   }
 
   /**
-   * Decrypt data using AES
+   * Decrypt data using AES-256-CBC with zero IV
    */
   private static decryptData(encryptedData: string): string {
     try {
-      const decoded = atob(encryptedData);
-      return decoded.replace(this.ENCRYPTION_KEY, '');
+      // Pad/trim key to exactly 32 bytes for AES-256
+      const rawKey = KeyService.getCachedKeySync();
+      const key = CryptoJS.enc.Utf8.parse(rawKey.padEnd(32, '0').slice(0, 32));
+      // Use 16-byte zero IV as specified
+      const iv = CryptoJS.enc.Utf8.parse('\0'.repeat(16));
+      
+      const decrypted = CryptoJS.AES.decrypt(encryptedData, key, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      });
+      
+      return decrypted.toString(CryptoJS.enc.Utf8);
     } catch (error) {
       throw new Error('Failed to decrypt QR data');
     }
   }
 
   /**
-   * Generate hash for verification
+   * Generate hash for verification (SHA-256 of ciphertext + AES_KEY)
    */
   private static generateHash(data: string): string {
-    return CryptoJS.SHA256(data + this.ENCRYPTION_KEY).toString();
+    const rawKey = KeyService.getCachedKeySync();
+    return CryptoJS.SHA256(data + rawKey).toString();
   }
 
   /**

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Mismatch Fix Implementation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            background-color: #f8f9fa;
+        }
+        .error {
+            border-left-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        .success {
+            border-left-color: #28a745;
+            background-color: #d4edda;
+        }
+        .warning {
+            border-left-color: #ffc107;
+            background-color: #fff3cd;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .danger {
+            background-color: #dc3545;
+        }
+        .danger:hover {
+            background-color: #c82333;
+        }
+        .success-btn {
+            background-color: #28a745;
+        }
+        .success-btn:hover {
+            background-color: #218838;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .log-output {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Hash Mismatch Fix Implementation</h1>
+        
+        <div class="step warning">
+            <h3>⚠️ Current Issue</h3>
+            <p>The web app is still using a cached base64 key instead of the static key 'LibraryQRSecureKey2024!@#$%^&*', causing hash mismatches with Flutter.</p>
+        </div>
+
+        <div class="step">
+            <h3>📋 Implementation Steps</h3>
+            <ol>
+                <li>Clear KeyService cache to remove old base64 key</li>
+                <li>Force refresh to fetch the correct static key from Firebase</li>
+                <li>Fix App Check 403 errors blocking key retrieval</li>
+                <li>Verify the correct key is being used for hashing</li>
+                <li>Test QR generation and scanning</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>🔑 Step 1: Clear KeyService Cache</h3>
+            <button onclick="clearKeyServiceCache()">Clear KeyService Cache</button>
+            <div id="clearCacheResult"></div>
+        </div>
+
+        <div class="step">
+            <h3>🔍 Step 2: Debug Current Key State</h3>
+            <button onclick="debugCurrentKeyState()">Debug Key State</button>
+            <div id="keyStateResult"></div>
+        </div>
+
+        <div class="step">
+            <h3>🔄 Step 3: Force Key Refresh</h3>
+            <button onclick="forceKeyRefresh()">Force Key Refresh</button>
+            <div id="refreshResult"></div>
+        </div>
+
+        <div class="step">
+            <h3>🧪 Step 4: Test QR Encryption</h3>
+            <button onclick="testQREncryption()">Test QR Encryption</button>
+            <div id="encryptionTestResult"></div>
+        </div>
+
+        <div class="step">
+            <h3>🎯 Step 5: Generate Test QR Code</h3>
+            <button onclick="generateTestQR()" class="success-btn">Generate Test QR</button>
+            <div id="qrGenerationResult"></div>
+        </div>
+
+        <div class="step">
+            <h3>📊 Live Debug Output</h3>
+            <div id="liveDebugOutput" class="log-output"></div>
+            <button onclick="clearDebugOutput()">Clear Output</button>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Manual Fixes</h3>
+            <button onclick="fixAppCheckToken()" class="warning">Fix App Check Token</button>
+            <button onclick="resetToFallbackKey()" class="danger">Reset to Fallback Key</button>
+        </div>
+    </div>
+
+    <script>
+        // Global debug output function
+        function addDebugOutput(message, type = 'info') {
+            const output = document.getElementById('liveDebugOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            output.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearDebugOutput() {
+            document.getElementById('liveDebugOutput').innerHTML = '';
+        }
+
+        // Step 1: Clear KeyService Cache
+        async function clearKeyServiceCache() {
+            try {
+                addDebugOutput('🧹 Clearing KeyService cache...', 'info');
+                
+                // Check if clearKeyServiceCache is available globally
+                if (typeof window.clearKeyServiceCache === 'function') {
+                    await window.clearKeyServiceCache();
+                    addDebugOutput('✅ KeyService cache cleared successfully', 'success');
+                } else {
+                    // Manual cache clearing
+                    localStorage.removeItem('qr_encryption_key');
+                    localStorage.removeItem('qr_key_expires_at');
+                    sessionStorage.removeItem('qr_encryption_key');
+                    sessionStorage.removeItem('qr_key_expires_at');
+                    addDebugOutput('✅ Manual cache clearing completed', 'success');
+                }
+                
+                document.getElementById('clearCacheResult').innerHTML = 
+                    '<div class="success">✅ Cache cleared successfully</div>';
+                    
+            } catch (error) {
+                addDebugOutput(`❌ Error clearing cache: ${error.message}`, 'error');
+                document.getElementById('clearCacheResult').innerHTML = 
+                    `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Step 2: Debug Current Key State
+        async function debugCurrentKeyState() {
+            try {
+                addDebugOutput('🔍 Debugging current key state...', 'info');
+                
+                const keyInfo = {
+                    localStorage_key: localStorage.getItem('qr_encryption_key'),
+                    localStorage_expires: localStorage.getItem('qr_key_expires_at'),
+                    sessionStorage_key: sessionStorage.getItem('qr_encryption_key'),
+                    sessionStorage_expires: sessionStorage.getItem('qr_key_expires_at'),
+                    env_key: import.meta?.env?.VITE_AES_KEY || 'Not available',
+                    expected_key: 'LibraryQRSecureKey2024!@#$%^&*'
+                };
+                
+                // Check if KeyService is available
+                if (typeof window.KeyService !== 'undefined') {
+                    try {
+                        const cachedKey = window.KeyService.getCachedKeySync();
+                        keyInfo.keyservice_cached = cachedKey;
+                        keyInfo.keyservice_matches_expected = cachedKey === 'LibraryQRSecureKey2024!@#$%^&*';
+                    } catch (e) {
+                        keyInfo.keyservice_error = e.message;
+                    }
+                }
+                
+                addDebugOutput(`📊 Key State Analysis: ${JSON.stringify(keyInfo, null, 2)}`, 'info');
+                
+                document.getElementById('keyStateResult').innerHTML = 
+                    `<pre>${JSON.stringify(keyInfo, null, 2)}</pre>`;
+                    
+            } catch (error) {
+                addDebugOutput(`❌ Error debugging key state: ${error.message}`, 'error');
+                document.getElementById('keyStateResult').innerHTML = 
+                    `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Step 3: Force Key Refresh
+        async function forceKeyRefresh() {
+            try {
+                addDebugOutput('🔄 Forcing key refresh...', 'info');
+                
+                // First clear cache
+                await clearKeyServiceCache();
+                
+                // Try to refresh key if KeyService is available
+                if (typeof window.KeyService !== 'undefined' && typeof window.KeyService.refreshKey === 'function') {
+                    addDebugOutput('🔄 Calling KeyService.refreshKey()...', 'info');
+                    await window.KeyService.refreshKey();
+                    
+                    const newKey = window.KeyService.getCachedKeySync();
+                    addDebugOutput(`🔑 New key retrieved: ${newKey}`, 'info');
+                    
+                    if (newKey === 'LibraryQRSecureKey2024!@#$%^&*') {
+                        addDebugOutput('✅ Correct static key retrieved!', 'success');
+                        document.getElementById('refreshResult').innerHTML = 
+                            '<div class="success">✅ Key refresh successful - correct static key retrieved</div>';
+                    } else {
+                        addDebugOutput(`⚠️ Wrong key retrieved: ${newKey}`, 'error');
+                        document.getElementById('refreshResult').innerHTML = 
+                            `<div class="error">⚠️ Wrong key retrieved: ${newKey}</div>`;
+                    }
+                } else {
+                    addDebugOutput('⚠️ KeyService not available, forcing page reload...', 'info');
+                    setTimeout(() => window.location.reload(), 2000);
+                    document.getElementById('refreshResult').innerHTML = 
+                        '<div class="warning">⚠️ KeyService not available, reloading page...</div>';
+                }
+                
+            } catch (error) {
+                addDebugOutput(`❌ Error refreshing key: ${error.message}`, 'error');
+                document.getElementById('refreshResult').innerHTML = 
+                    `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Step 4: Test QR Encryption
+        async function testQREncryption() {
+            try {
+                addDebugOutput('🧪 Testing QR encryption...', 'info');
+                
+                if (typeof window.debugQREncryption === 'function') {
+                    const result = await window.debugQREncryption();
+                    addDebugOutput(`🧪 Encryption test result: ${JSON.stringify(result, null, 2)}`, 'info');
+                    
+                    document.getElementById('encryptionTestResult').innerHTML = 
+                        `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+                } else {
+                    addDebugOutput('⚠️ debugQREncryption function not available', 'error');
+                    document.getElementById('encryptionTestResult').innerHTML = 
+                        '<div class="error">⚠️ debugQREncryption function not available</div>';
+                }
+                
+            } catch (error) {
+                addDebugOutput(`❌ Error testing encryption: ${error.message}`, 'error');
+                document.getElementById('encryptionTestResult').innerHTML = 
+                    `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Step 5: Generate Test QR Code
+        async function generateTestQR() {
+            try {
+                addDebugOutput('🎯 Generating test QR code...', 'info');
+                
+                const testData = {
+                    userId: 'test-user-123',
+                    fullName: 'Test User',
+                    email: 'test@example.com',
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Check if DynamicQRService is available
+                if (typeof window.DynamicQRService !== 'undefined') {
+                    const qrResult = await window.DynamicQRService.generateQRCode(testData, 'test-scanner');
+                    addDebugOutput(`🎯 QR generation result: ${JSON.stringify(qrResult, null, 2)}`, 'success');
+                    
+                    document.getElementById('qrGenerationResult').innerHTML = 
+                        `<div class="success">✅ QR Code generated successfully</div>
+                         <pre>${JSON.stringify(qrResult, null, 2)}</pre>`;
+                } else {
+                    addDebugOutput('⚠️ DynamicQRService not available', 'error');
+                    document.getElementById('qrGenerationResult').innerHTML = 
+                        '<div class="error">⚠️ DynamicQRService not available</div>';
+                }
+                
+            } catch (error) {
+                addDebugOutput(`❌ Error generating QR: ${error.message}`, 'error');
+                document.getElementById('qrGenerationResult').innerHTML = 
+                    `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Manual Fix: App Check Token
+        async function fixAppCheckToken() {
+            try {
+                addDebugOutput('🔧 Attempting to fix App Check token...', 'info');
+                
+                // Check if we can access Firebase App Check
+                if (typeof window.firebase !== 'undefined' && window.firebase.appCheck) {
+                    const token = await window.firebase.appCheck().getToken();
+                    addDebugOutput(`🔑 App Check token: ${token.token.substring(0, 20)}...`, 'info');
+                } else {
+                    addDebugOutput('⚠️ Firebase App Check not available', 'error');
+                }
+                
+                // Instructions for manual fix
+                const instructions = `
+                Manual App Check Fix Instructions:
+                1. Go to Firebase Console → App Check
+                2. Find your web app configuration
+                3. Add debug token from browser console
+                4. Or temporarily disable App Check enforcement
+                `;
+                
+                addDebugOutput(instructions, 'info');
+                alert(instructions);
+                
+            } catch (error) {
+                addDebugOutput(`❌ Error fixing App Check: ${error.message}`, 'error');
+            }
+        }
+
+        // Manual Fix: Reset to Fallback Key
+        async function resetToFallbackKey() {
+            try {
+                addDebugOutput('🔧 Resetting to fallback key...', 'info');
+                
+                // Clear all cached keys
+                await clearKeyServiceCache();
+                
+                // Force use of fallback key
+                localStorage.setItem('qr_encryption_key', 'LibraryQRSecureKey2024!@#$%^&*');
+                localStorage.setItem('qr_key_expires_at', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
+                
+                addDebugOutput('✅ Fallback key set successfully', 'success');
+                
+                // Test the key
+                await debugCurrentKeyState();
+                
+            } catch (error) {
+                addDebugOutput(`❌ Error resetting to fallback key: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize page
+        window.addEventListener('load', () => {
+            addDebugOutput('🚀 Hash Mismatch Fix Implementation loaded', 'success');
+            addDebugOutput('📋 Ready to execute fix steps', 'info');
+        });
+    </script>
+</body>
+</html>

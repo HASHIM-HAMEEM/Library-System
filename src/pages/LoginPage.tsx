@@ -218,7 +218,7 @@ const LoginPage = () => {
         {/* Main Container */}
         <div className="backdrop-blur-xl rounded-2xl p-6 sm:p-8 shadow-2xl"
              style={{
-               backgroundColor: 'var(--bg-secondary)',
+               backgroundColor: '#000000',
                border: `1px solid var(--border-color)`,
                boxShadow: `0 25px 50px -12px var(--shadow-color)`
              }}>
@@ -243,11 +243,10 @@ const LoginPage = () => {
               <div className="absolute inset-0 rounded-xl bg-white/20 blur-xl -z-10"></div>
             </div>
             
-            <h1 className="text-xl sm:text-2xl font-semibold mb-2"
-                style={{color: 'var(--text-primary)'}}>
+            <h1 className="text-xl sm:text-2xl font-semibold mb-2 text-gray-900 dark:text-white">
               Welcome back
             </h1>
-            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
               Sign in to your admin dashboard
             </p>
           </div>
@@ -256,7 +255,7 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email
               </label>
               <div className="relative">
@@ -300,7 +299,7 @@ const LoginPage = () => {
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium" style={{color: 'var(--text-secondary)'}}>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
               <div className="relative">
@@ -382,7 +381,7 @@ const LoginPage = () => {
               className="w-full py-2.5 sm:py-3 font-medium rounded-xl focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base"
               style={{
                 backgroundColor: 'var(--accent-primary)',
-                color: 'white',
+                color: 'black',
                 boxShadow: '0 4px 14px 0 var(--accent-primary)40'
               }}
               onMouseEnter={(e) => {
@@ -433,7 +432,7 @@ const LoginPage = () => {
           </form>
 
           {/* Security Notice */}
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl backdrop-blur-sm" style={{ backgroundColor: 'var(--bg-secondary)', border: `1px solid var(--border-color)` }}>
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl backdrop-blur-sm bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-center gap-2">
               <Shield className="h-3 w-3 sm:h-4 sm:w-4" style={{ color: 'var(--text-muted)' }} />
               <span className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
@@ -445,9 +444,7 @@ const LoginPage = () => {
 
         {/* Modern Footer */}
         <div className="text-center mt-4 sm:mt-6">
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-            GStore Admin Portal
-          </p>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>GStore Admin Portal</p>
           <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
             Secure • Reliable • Modern
           </p>
@@ -457,20 +454,20 @@ const LoginPage = () => {
       {/* Modern Forgot Password Modal */}
       {showForgotPassword && (
         <div className="fixed inset-0 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
-          <div className="backdrop-blur-xl rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl" style={{ backgroundColor: 'var(--bg-primary)', border: `1px solid var(--border-color)` }}>
+          <div className="backdrop-blur-xl rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
             <div className="text-center mb-4 sm:mb-6">
               <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 rounded-xl flex items-center justify-center shadow-lg" style={{ background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))' }}>
                 <Mail className="h-5 w-5 sm:h-6 sm:w-6" style={{ color: 'white' }} />
               </div>
-              <h2 className="text-lg sm:text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Reset Password</h2>
-              <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <h2 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900 dark:text-white">Reset Password</h2>
+              <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                 Enter your email to receive a password reset link
               </p>
             </div>
 
             <form onSubmit={handleForgotPassword} className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <label className="block text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
                   Email
                 </label>
                 <div className="relative">

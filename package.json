@@ -13,6 +13,7 @@
     "test:visual": "npx @playwright/mcp@latest --config playwright-mcp.config.json"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.53.0",
     "@types/crypto-js": "^4.2.2",
     "@zxing/library": "^0.21.3",
     "clsx": "^2.1.1",

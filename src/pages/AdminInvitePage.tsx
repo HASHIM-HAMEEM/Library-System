@@ -59,7 +59,7 @@ const AdminInvitePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-4" style={{backgroundColor: 'var(--bg-primary)'}}>
+    <div className="min-h-screen p-4 bg-white dark:bg-black">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 pt-8">
@@ -82,15 +82,15 @@ const AdminInvitePage: React.FC = () => {
         </div>
 
         {/* Main Card */}
-        <div className="rounded-2xl shadow-2xl p-8" style={{backgroundColor: 'var(--bg-secondary)'}}>
+        <div className="rounded-2xl shadow-2xl p-8 bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{backgroundColor: 'var(--bg-tertiary)'}}>
-              <UserPlus className="w-8 h-8" style={{color: 'var(--text-primary)'}} />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gray-100 dark:bg-gray-800">
+              <UserPlus className="w-8 h-8 text-gray-900 dark:text-white" />
             </div>
-            <h1 className="text-2xl font-bold mb-2" style={{color: 'var(--text-primary)'}}>
+            <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
               Create New Admin
             </h1>
-            <p style={{color: 'var(--text-secondary)'}}>
+            <p className="text-gray-700 dark:text-gray-300">
               Create a new admin account directly
             </p>
           </div>
@@ -99,7 +99,7 @@ const AdminInvitePage: React.FC = () => {
             /* Admin Creation Form */
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
+                <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
                   <Mail className="w-4 h-4 inline mr-2" />
                   Email Address
                 </label>
@@ -120,7 +120,7 @@ const AdminInvitePage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
+                <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
                   <User className="w-4 h-4 inline mr-2" />
                   Full Name
                 </label>
@@ -141,7 +141,7 @@ const AdminInvitePage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
+                <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
                   <Lock className="w-4 h-4 inline mr-2" />
                   Temporary Password
                 </label>
@@ -200,7 +200,7 @@ const AdminInvitePage: React.FC = () => {
                 <div className="flex items-center justify-center mb-2">
                   <Check className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2" style={{color: 'var(--text-primary)'}}>
+                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
                   Admin Account Created Successfully!
                 </h3>
                 <p className="text-sm" style={{color: 'var(--text-secondary)'}}>

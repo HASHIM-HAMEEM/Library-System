@@ -76,23 +76,20 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 backdrop-blur-sm">
-      <div className="rounded-lg shadow-2xl max-w-md w-full mx-4" style={{backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-color)', border: '1px solid'}}>
+      <div className="rounded-lg shadow-2xl max-w-md w-full mx-4 bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b" style={{borderColor: 'var(--border-color)'}}>
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-3">
-            <div className="p-2 border rounded-lg" style={{backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)'}}>
-              <UserPlus className="h-6 w-6" style={{color: 'var(--text-primary)'}} />
+            <div className="p-2 border rounded-lg bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+              <UserPlus className="h-6 w-6 text-gray-900 dark:text-white" />
             </div>
-            <h2 className="text-xl font-semibold" style={{color: 'var(--text-primary)'}}>Create Admin Account</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Create Admin Account</h2>
           </div>
           <button
               onClick={onClose}
-              className="p-2 rounded-lg transition-colors"
-              style={{'--hover-bg': 'var(--bg-hover)'} as any}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-hover)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              className="p-2 rounded-lg transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              <X className="h-5 w-5" style={{color: 'var(--text-secondary)'}} />
+              <X className="h-5 w-5 text-gray-700 dark:text-gray-300" />
           </button>
         </div>
 
@@ -100,13 +97,13 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
         <div className="p-6">
           {!accountCreated ? (
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="text-sm mb-4" style={{color: 'var(--text-secondary)'}}>
+              <div className="text-sm mb-4 text-gray-700 dark:text-gray-300">
                 Create a new admin account with a temporary password. The admin should change their password after first login.
               </div>
               
               {/* Name Field */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
+                <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
                   <User className="h-4 w-4 inline mr-2" />
                   Full Name *
                 </label>
@@ -116,8 +113,7 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 transition-colors"
-                  style={{backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)'}}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 transition-colors bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
                   placeholder="Enter admin's full name"
                   required
                 />
@@ -125,7 +121,7 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
 
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
+                <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
                   <Mail className="h-4 w-4 inline mr-2" />
                   Email Address *
                 </label>
@@ -143,7 +139,7 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
 
               {/* Temporary Password Field */}
               <div>
-                <label htmlFor="temporaryPassword" className="block text-sm font-medium mb-2" style={{color: 'var(--text-primary)'}}>
+                <label htmlFor="temporaryPassword" className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
                   Temporary Password *
                 </label>
                 <div className="flex space-x-2">
@@ -153,16 +149,14 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
                     name="temporaryPassword"
                     value={formData.temporaryPassword}
                     onChange={handleInputChange}
-                    className="flex-1 px-3 py-2 border rounded-lg focus:ring-2 transition-colors"
-                    style={{backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)'}}
+                    className="flex-1 px-3 py-2 border rounded-lg focus:ring-2 transition-colors bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
                     placeholder="Enter temporary password"
                     required
                   />
                   <button
                     type="button"
                     onClick={generatePassword}
-                    className="px-3 py-2 border rounded-lg transition-colors text-sm"
-                    style={{backgroundColor: 'var(--bg-hover)', color: 'var(--text-primary)', borderColor: 'var(--border-color)'}}
+                    className="px-3 py-2 border rounded-lg transition-colors text-sm bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700"
                   >
                     Generate
                   </button>
@@ -170,9 +164,9 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
               </div>
 
               {/* Security Notice */}
-              <div className="border rounded-lg p-3" style={{backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)'}}>
-                <div className="text-sm" style={{color: 'var(--text-secondary)'}}>
-                  <strong style={{color: 'var(--text-primary)'}}>Security Notice:</strong> This will create an admin account with full system privileges. Only invite trusted individuals.
+              <div className="border rounded-lg p-3 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                <div className="text-sm text-gray-700 dark:text-gray-300">
+                  <strong className="text-gray-900 dark:text-white">Security Notice:</strong> This will create an admin account with full system privileges. Only invite trusted individuals.
                 </div>
               </div>
 
@@ -181,20 +175,18 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 border rounded-lg transition-colors"
-                  style={{color: 'var(--text-secondary)', backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)'}}
+                  className="px-4 py-2 border rounded-lg transition-colors text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-                  style={{backgroundColor: 'var(--accent-color)', color: 'var(--accent-text)'}}
+                  className="px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 bg-blue-500 text-white"
                 >
                   {loading ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2" style={{borderColor: 'var(--accent-text)'}}></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                       <span>Creating...</span>
                     </>
                   ) : (
@@ -209,22 +201,22 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
           ) : (
             /* Success State */
             <div className="text-center space-y-4">
-              <div className="p-4 border rounded-lg" style={{backgroundColor: 'var(--success-bg)', borderColor: 'var(--success-border)'}}>
-                <div className="text-sm" style={{color: 'var(--success-text)'}}>
+              <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-700">
+                <div className="text-sm text-green-700 dark:text-green-300">
                   Admin account created successfully!
                 </div>
               </div>
               
-              <div className="border rounded-lg p-4 text-left" style={{backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)'}}>
-                <div className="text-sm mb-2" style={{color: 'var(--text-secondary)'}}>Account Details:</div>
+              <div className="border rounded-lg p-4 text-left bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                <div className="text-sm mb-2 text-gray-700 dark:text-gray-300">Account Details:</div>
                 <div className="space-y-2">
-                  <div className="text-sm" style={{color: 'var(--text-primary)'}}>
+                  <div className="text-sm text-gray-900 dark:text-white">
                     <strong>Email:</strong> {formData.email}
                   </div>
-                  <div className="text-sm text-white">
+                  <div className="text-sm text-gray-900 dark:text-white">
                     <strong>Name:</strong> {formData.name}
                   </div>
-                  <div className="text-sm" style={{color: 'var(--warning-text)'}}>
+                  <div className="text-sm text-yellow-600 dark:text-yellow-400">
                     <strong>Note:</strong> The admin should change their password after first login.
                   </div>
                 </div>
@@ -233,15 +225,13 @@ const AdminInvitePanel: React.FC<AdminInvitePanelProps> = ({ onClose }) => {
               <div className="flex justify-center space-x-3">
                 <button
                   onClick={resetForm}
-                  className="px-4 py-2 rounded-lg transition-colors"
-                  style={{backgroundColor: 'var(--accent-color)', color: 'var(--accent-text)'}}
+                  className="px-4 py-2 rounded-lg transition-colors bg-blue-500 text-white"
                 >
                   Create Another
                 </button>
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 border rounded-lg transition-colors"
-                  style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-secondary)', borderColor: 'var(--border-color)'}}
+                  className="px-4 py-2 border rounded-lg transition-colors bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700"
                 >
                   Close
                 </button>

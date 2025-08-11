@@ -73,18 +73,18 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isMobileOp
         w-64 h-full transition-transform duration-300 ease-in-out
         md:translate-x-0 md:static md:z-auto
         fixed top-0 left-0 z-[1000]
+        bg-white dark:bg-black
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}
-      style={{backgroundColor: 'var(--sidebar-bg)'}}>
+      `}>
         {/* Logo/Brand */}
         <div className="p-4 md:p-6">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 md:w-8 md:h-8 rounded-lg flex items-center justify-center">
-              <Activity className="w-4 h-4 md:w-5 md:h-5" style={{color: 'var(--accent-color)'}} />
+            <div className="w-6 h-6 md:w-8 md:h-8 rounded-lg flex items-center justify-center bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
+              <Activity className="w-4 h-4 md:w-5 md:h-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <h2 className="font-bold text-base md:text-lg" style={{color: 'var(--text-primary)'}}>Library</h2>
-              <p className="text-xs" style={{color: 'var(--text-secondary)'}}>fin.</p>
+              <h2 className="font-bold text-base md:text-lg text-gray-900 dark:text-white">Library</h2>
+              <p className="text-xs text-gray-700 dark:text-gray-300">fin.</p>
             </div>
           </div>
         </div>
@@ -124,23 +124,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isMobileOp
                       onMobileClose();
                     }
                   }}
-                  className="w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 transition-colors text-left rounded-lg"
-                  style={{
-                    backgroundColor: isActive ? 'var(--bg-tertiary)' : 'transparent',
-                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
-                      e.currentTarget.style.color = 'var(--text-primary)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = 'var(--text-secondary)';
-                    }
-                  }}
+                  className={`w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 transition-colors text-left rounded-lg border border-gray-200 dark:border-gray-700 ${
+                    isActive 
+                      ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' 
+                      : 'bg-white dark:bg-black text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white'
+                  }`}
                 >
                   <Icon className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" />
                   <div className="font-medium text-sm md:text-base">{item.label}</div>

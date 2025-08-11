@@ -198,7 +198,7 @@ const UserVerification: React.FC<UserVerificationProps> = ({ className = '' }) =
       <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
         <div className="flex items-center justify-center h-64">
           <div className="flex items-center space-x-3">
-            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-gray-900 dark:border-white border-t-transparent rounded-full animate-spin" />
             <span className="text-gray-600">Loading pending users...</span>
           </div>
         </div>
@@ -216,7 +216,7 @@ const UserVerification: React.FC<UserVerificationProps> = ({ className = '' }) =
             <p className="text-gray-600 mb-4">{error}</p>
             <button
               onClick={fetchPendingUsers}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100"
             >
               Try Again
             </button>
@@ -232,7 +232,7 @@ const UserVerification: React.FC<UserVerificationProps> = ({ className = '' }) =
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Clock className="w-6 h-6 text-orange-600" />
-            <h2 className="text-xl font-semibold" style={{color: 'var(--text-primary)'}}>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               Pending User Verifications
             </h2>
           </div>
@@ -318,7 +318,7 @@ const UserVerification: React.FC<UserVerificationProps> = ({ className = '' }) =
                         {user.profile_picture_url && (
                           <button
                             onClick={() => setViewingDocument(user.profile_picture_url!)}
-                            className="flex items-center space-x-2 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                            className="flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                           >
                             <Eye className="w-4 h-4" />
                             <span>Profile Picture</span>

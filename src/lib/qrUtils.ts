@@ -2,9 +2,7 @@ import QRCode from 'qrcode';
 import CryptoJS from 'crypto-js';
 import { db } from './firebase';
 import { doc, updateDoc, collection, query, where, orderBy, limit, getDocs, addDoc, getDoc } from 'firebase/firestore';
-
-// Secret key for encryption (in production, use environment variable)
-const ENCRYPTION_KEY = 'your-secret-encryption-key-change-this';
+import { KeyService } from './keyService';
 
 // QR token interface
 export interface QRTokenData {
@@ -30,13 +28,22 @@ export const generateQRToken = async (userId: string): Promise<string> => {
     
     // Create signature
     const dataToSign = `${userId}:${now}:${expiresAt}`;
-    const signature = CryptoJS.HmacSHA256(dataToSign, ENCRYPTION_KEY).toString();
+    const rawKey = KeyService.getCachedKeySync();
+    const signature = CryptoJS.HmacSHA256(dataToSign, rawKey).toString();
     tokenData.signature = signature;
     
-    // Encrypt the token
+    // Encrypt the token using AES-256-CBC with zero IV
+    const key = CryptoJS.enc.Utf8.parse(KeyService.getPaddedKey(rawKey));
+    const iv = CryptoJS.enc.Utf8.parse('\0'.repeat(16));
+    
     const encryptedToken = CryptoJS.AES.encrypt(
       JSON.stringify(tokenData),
-      ENCRYPTION_KEY
+      key,
+      {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      }
     ).toString();
     
     // Update user's QR token in database
@@ -81,8 +88,16 @@ export const validateQRToken = (encryptedToken: string): {
   error?: string;
 } => {
   try {
-    // Decrypt the token
-    const decryptedBytes = CryptoJS.AES.decrypt(encryptedToken, ENCRYPTION_KEY);
+    // Decrypt the token using AES-256-CBC with zero IV
+    const rawKey = KeyService.getCachedKeySync();
+    const key = CryptoJS.enc.Utf8.parse(KeyService.getPaddedKey(rawKey));
+    const iv = CryptoJS.enc.Utf8.parse('\0'.repeat(16));
+    
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedToken, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    });
     const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
     
     if (!decryptedData) {
@@ -93,7 +108,7 @@ export const validateQRToken = (encryptedToken: string): {
     
     // Verify signature
     const dataToSign = `${tokenData.userId}:${tokenData.timestamp}:${tokenData.expiresAt}`;
-    const expectedSignature = CryptoJS.HmacSHA256(dataToSign, ENCRYPTION_KEY).toString();
+    const expectedSignature = CryptoJS.HmacSHA256(dataToSign, rawKey).toString();
     
     if (tokenData.signature !== expectedSignature) {
       return { isValid: false, error: 'Invalid token signature' };

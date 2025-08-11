@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
   }, [autoRefresh, logAction]);
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <div className="bg-white dark:bg-black">
       {/* Top Header - Mobile Menu Toggle and Profile Icon */}
       <div className="px-4 md:px-6 py-3 flex justify-between items-center">
         {/* Mobile Menu Toggle */}
@@ -64,7 +64,7 @@ const Header: React.FC<HeaderProps> = ({
               onMobileMenuToggle();
             }
           }}
-          className="mobile-menu-toggle md:hidden"
+          className="mobile-menu-toggle md:hidden p-2 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -92,17 +92,7 @@ const Header: React.FC<HeaderProps> = ({
               });
               setShowProfileMenu(newState);
             }}
-            className="w-10 h-10 rounded-full flex items-center justify-center transition-colors"
-            style={{
-              backgroundColor: 'var(--bg-tertiary)',
-              color: 'var(--text-secondary)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = 'var(--text-primary)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'var(--text-secondary)';
-            }}
+            className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-700"
           >
             <User className="w-5 h-5" />
           </button>
@@ -110,16 +100,11 @@ const Header: React.FC<HeaderProps> = ({
           {/* Profile Dropdown */}
           {showProfileMenu && (
             <div 
-              className="absolute right-0 top-full mt-2 w-48 rounded-lg shadow-lg z-50" 
-              style={{
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                boxShadow: '0 10px 15px -3px var(--shadow-color)'
-              }}
+              className="absolute right-0 top-full mt-2 w-48 rounded-lg shadow-lg z-50 bg-white dark:bg-black border border-gray-200 dark:border-gray-700"
             >
-              <div className="p-3" style={{ borderBottom: '1px solid var(--border-color)' }}>
-                 <div className="font-medium" style={{ color: 'var(--text-primary)' }}>{user?.name || 'Admin User'}</div>
-                 <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{user?.email || 'admin@gstore.com'}</div>
+              <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+                 <div className="font-medium text-gray-900 dark:text-white">{user?.name || 'Admin User'}</div>
+                 <div className="text-sm text-gray-700 dark:text-gray-300">{user?.email || 'admin@gstore.com'}</div>
                </div>
               
               <div className="py-2">
@@ -134,16 +119,7 @@ const Header: React.FC<HeaderProps> = ({
                       onProfileClick();
                     }
                   }}
-                  className="w-full text-left px-3 py-2 transition-colors flex items-center gap-2"
-                  style={{ color: 'var(--text-secondary)' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
-                    e.currentTarget.style.color = 'var(--text-primary)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = 'var(--text-secondary)';
-                  }}
+                  className="w-full text-left px-3 py-2 transition-colors flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-black"
                 >
                   <User className="w-4 h-4" />
                   Profile Settings
@@ -151,7 +127,7 @@ const Header: React.FC<HeaderProps> = ({
                 
 
                 
-                <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--border-color)' }}>
+                <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
                   <button
                     onClick={() => {
                       logClick('logout_button_header');
@@ -163,16 +139,7 @@ const Header: React.FC<HeaderProps> = ({
                       setShowProfileMenu(false);
                       onLogout();
                     }}
-                    className="w-full text-left px-3 py-2 transition-colors flex items-center gap-2"
-                    style={{ color: 'var(--text-muted)' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
-                      e.currentTarget.style.color = 'var(--text-primary)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = 'var(--text-muted)';
-                    }}
+                    className="w-full text-left px-3 py-2 transition-colors flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-white rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-black"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout
@@ -190,8 +157,8 @@ const Header: React.FC<HeaderProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
           {/* Left side - Title and last updated */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <h1 className="text-lg md:text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>{title}</h1>
-            <div className="text-xs md:text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <h1 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">{title}</h1>
+            <div className="text-xs md:text-sm text-gray-700 dark:text-gray-300">
               Last updated: {format(lastUpdated, 'HH:mm:ss')}
             </div>
           </div>
@@ -212,22 +179,11 @@ const Header: React.FC<HeaderProps> = ({
                 });
                 toggleAutoRefresh();
               }}
-              className="px-2 md:px-3 py-1 md:py-1.5 rounded-lg text-xs md:text-sm font-medium transition-colors"
-              style={{
-                backgroundColor: autoRefresh ? 'var(--bg-hover)' : 'var(--bg-tertiary)',
-                color: autoRefresh ? 'var(--text-primary)' : 'var(--text-secondary)',
-                border: autoRefresh ? '1px solid var(--border-color)' : '1px solid transparent'
-              }}
-              onMouseEnter={(e) => {
-                if (!autoRefresh) {
-                  e.currentTarget.style.color = 'var(--text-primary)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!autoRefresh) {
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                }
-              }}
+              className={`px-2 md:px-3 py-1 md:py-1.5 rounded-lg text-xs md:text-sm font-medium transition-colors border border-gray-200 dark:border-gray-700 ${
+                autoRefresh 
+                  ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' 
+                  : 'bg-white dark:bg-black text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+              }`}
             >
               <span className="hidden sm:inline">Auto Refresh {autoRefresh ? 'ON' : 'OFF'}</span>
               <span className="sm:hidden">{autoRefresh ? 'Auto ON' : 'Auto OFF'}</span>

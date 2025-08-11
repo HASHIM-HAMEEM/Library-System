@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Fix Test - Hash Mismatch Resolution</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .log-output {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .key-display {
+            font-family: monospace;
+            background-color: #f8f9fa;
+            padding: 5px;
+            border-radius: 3px;
+            word-break: break-all;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-success { background-color: #28a745; }
+        .status-error { background-color: #dc3545; }
+        .status-warning { background-color: #ffc107; }
+        .status-info { background-color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Hash Mismatch Fix Verification</h1>
+        <p>This page helps verify that the hash mismatch between web app and Flutter has been resolved.</p>
+        
+        <div class="test-section info">
+            <h3>📋 Test Instructions</h3>
+            <ol>
+                <li><strong>Clear KeyService Cache:</strong> Click "Force Refresh KeyService" to clear old cached keys</li>
+                <li><strong>Verify Static Key:</strong> Check that the web app is using the correct static key</li>
+                <li><strong>Test QR Generation:</strong> Generate a QR code and verify the hash</li>
+                <li><strong>Test with Flutter:</strong> Scan the generated QR code with the Flutter app</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>🔑 KeyService Status</h3>
+            <div id="keyStatus">Loading...</div>
+            <button onclick="checkKeyStatus()">Check Key Status</button>
+            <button onclick="forceRefreshKey()">Force Refresh KeyService</button>
+            <button onclick="debugKeyState()">Debug Key State</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 QR Code Test</h3>
+            <div id="qrTestStatus">Ready to test</div>
+            <button onclick="testQRGeneration()">Test QR Generation</button>
+            <button onclick="clearQRCache()">Clear QR Cache</button>
+            <div id="qrResult" style="margin-top: 15px;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Test Results</h3>
+            <div id="testResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 Console Logs</h3>
+            <div id="consoleOutput" class="log-output">Console output will appear here...</div>
+            <button onclick="clearLogs()">Clear Logs</button>
+        </div>
+    </div>
+
+    <script>
+        // Expected static key
+        const EXPECTED_STATIC_KEY = 'LibraryQRSecureKey2024!@#$%^&*';
+        
+        // Console capture
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        const originalConsoleWarn = console.warn;
+        
+        function logToPage(message, type = 'log') {
+            const output = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'warn' ? '⚠️' : '📝';
+            output.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            logToPage(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            logToPage(args.join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalConsoleWarn.apply(console, args);
+            logToPage(args.join(' '), 'warn');
+        };
+
+        // Test functions
+        async function checkKeyStatus() {
+            const statusDiv = document.getElementById('keyStatus');
+            statusDiv.innerHTML = '<span class="status-indicator status-info"></span>Checking key status...';
+            
+            try {
+                // Check if global functions are available
+                if (typeof window.debugKeyServiceState !== 'function') {
+                    throw new Error('KeyService debug functions not available. Make sure the app is loaded.');
+                }
+                
+                // Get current key state
+                window.debugKeyServiceState();
+                
+                // Try to get the current key
+                let currentKey = null;
+                if (typeof window.forceRefreshKeyService === 'function') {
+                    console.log('🔍 Getting current key from KeyService...');
+                    // This will also log detailed information
+                    currentKey = await window.forceRefreshKeyService();
+                }
+                
+                const isCorrectKey = currentKey === EXPECTED_STATIC_KEY;
+                
+                if (isCorrectKey) {
+                    statusDiv.innerHTML = `
+                        <span class="status-indicator status-success"></span>
+                        <strong>✅ Key Status: CORRECT</strong><br>
+                        <div class="key-display">Current Key: ${currentKey}</div>
+                        <small>Web app is using the correct static key!</small>
+                    `;
+                } else {
+                    statusDiv.innerHTML = `
+                        <span class="status-indicator status-error"></span>
+                        <strong>❌ Key Status: INCORRECT</strong><br>
+                        <div class="key-display">Current Key: ${currentKey || 'null'}</div>
+                        <div class="key-display">Expected Key: ${EXPECTED_STATIC_KEY}</div>
+                        <small>Web app is still using the wrong key!</small>
+                    `;
+                }
+                
+                return isCorrectKey;
+            } catch (error) {
+                console.error('Error checking key status:', error);
+                statusDiv.innerHTML = `
+                    <span class="status-indicator status-error"></span>
+                    <strong>❌ Error checking key status</strong><br>
+                    <small>${error.message}</small>
+                `;
+                return false;
+            }
+        }
+        
+        async function forceRefreshKey() {
+            const statusDiv = document.getElementById('keyStatus');
+            statusDiv.innerHTML = '<span class="status-indicator status-warning"></span>Force refreshing KeyService...';
+            
+            try {
+                if (typeof window.forceRefreshKeyService !== 'function') {
+                    throw new Error('forceRefreshKeyService function not available');
+                }
+                
+                console.log('🔄 Force refreshing KeyService cache...');
+                const newKey = await window.forceRefreshKeyService();
+                
+                // Check the result
+                await checkKeyStatus();
+                
+                console.log('✅ KeyService refresh completed');
+            } catch (error) {
+                console.error('Error force refreshing key:', error);
+                statusDiv.innerHTML = `
+                    <span class="status-indicator status-error"></span>
+                    <strong>❌ Error refreshing key</strong><br>
+                    <small>${error.message}</small>
+                `;
+            }
+        }
+        
+        function debugKeyState() {
+            try {
+                if (typeof window.debugKeyServiceState !== 'function') {
+                    throw new Error('debugKeyServiceState function not available');
+                }
+                
+                console.log('🔍 Debugging KeyService state...');
+                window.debugKeyServiceState();
+            } catch (error) {
+                console.error('Error debugging key state:', error);
+            }
+        }
+        
+        async function testQRGeneration() {
+            const statusDiv = document.getElementById('qrTestStatus');
+            const resultDiv = document.getElementById('qrResult');
+            
+            statusDiv.innerHTML = '<span class="status-indicator status-info"></span>Testing QR generation...';
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Check if QR functions are available
+                if (typeof window.debugQREncryption !== 'function') {
+                    throw new Error('QR debug functions not available. Make sure the app is loaded.');
+                }
+                
+                console.log('🧪 Testing QR code generation...');
+                
+                // Test QR encryption
+                const testResult = await window.debugQREncryption();
+                
+                if (testResult) {
+                    statusDiv.innerHTML = '<span class="status-indicator status-success"></span>QR generation test completed';
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>✅ QR Generation Test Results:</strong><br>
+                            Check the console logs above for detailed encryption/decryption test results.
+                        </div>
+                    `;
+                } else {
+                    statusDiv.innerHTML = '<span class="status-indicator status-error"></span>QR generation test failed';
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <strong>❌ QR Generation Test Failed</strong><br>
+                            Check the console logs for error details.
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error testing QR generation:', error);
+                statusDiv.innerHTML = '<span class="status-indicator status-error"></span>QR test error';
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ QR Test Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function clearQRCache() {
+            try {
+                if (typeof window.clearKeyServiceCache === 'function') {
+                    console.log('🧹 Clearing QR cache...');
+                    window.clearKeyServiceCache();
+                    console.log('✅ QR cache cleared');
+                } else {
+                    console.warn('clearKeyServiceCache function not available');
+                }
+            } catch (error) {
+                console.error('Error clearing QR cache:', error);
+            }
+        }
+        
+        function clearLogs() {
+            document.getElementById('consoleOutput').textContent = 'Console output cleared...\n';
+        }
+        
+        // Auto-check key status on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('🚀 Hash Mismatch Fix Test Page Loaded');
+                console.log('📋 Available test functions:');
+                console.log('  - checkKeyStatus(): Check current key status');
+                console.log('  - forceRefreshKey(): Force refresh KeyService cache');
+                console.log('  - testQRGeneration(): Test QR code generation');
+                console.log('  - clearQRCache(): Clear QR-related caches');
+                
+                // Auto-check key status
+                checkKeyStatus();
+            }, 1000);
+        });
+        
+        // Update test results
+        function updateTestResults() {
+            const resultsDiv = document.getElementById('testResults');
+            // This will be updated by the test functions
+        }
+    </script>
+</body>
+</html>

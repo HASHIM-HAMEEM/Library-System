@@ -417,7 +417,7 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{borderColor: 'var(--text-primary)'}}></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-white"></div>
       </div>
     );
   }
@@ -425,8 +425,8 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
   if (!adminProfile) {
     return (
       <div className="text-center py-12">
-        <AlertTriangle className="w-12 h-12 mx-auto mb-4" style={{color: 'var(--text-secondary)'}} />
-        <h3 className="text-lg font-medium mb-2" style={{color: 'var(--text-primary)'}}>Failed to load admin profile</h3>
+        <AlertTriangle className="w-12 h-12 mx-auto mb-4 text-gray-700 dark:text-gray-300" />
+        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">Failed to load admin profile</h3>
         <button
           onClick={fetchAdminProfile}
           className="px-4 py-2 rounded-lg transition-colors"
@@ -450,29 +450,29 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
   return (
     <>
       {/* Admin Profile Header */}
-      <div className="p-6 rounded-lg border border-gray-300 mb-6" style={{backgroundColor: 'var(--bg-secondary)'}}>
+      <div className="p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-6 bg-white dark:bg-black">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{backgroundColor: 'var(--accent-primary)'}}>
-              <User className="w-8 h-8" style={{color: 'var(--text-primary)'}} />
+              <User className="w-8 h-8 text-gray-900 dark:text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-bold" style={{color: 'var(--text-primary)'}}>{adminProfile.name}</h2>
-              <p style={{color: 'var(--text-secondary)'}}>{adminProfile.email}</p>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{adminProfile.name}</h2>
+              <p className="text-gray-700 dark:text-gray-300">{adminProfile.email}</p>
               <p className="text-sm" style={{color: 'var(--text-muted)'}}>
                 Last login: {format(adminProfile.lastLogin, 'MMM dd, yyyy HH:mm')}
               </p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Account created</p>
-            <p style={{color: 'var(--text-primary)'}}>{format(adminProfile.createdAt, 'MMM dd, yyyy')}</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300">Account created</p>
+            <p className="text-gray-900 dark:text-white">{format(adminProfile.createdAt, 'MMM dd, yyyy')}</p>
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="p-6 rounded-lg border border-gray-300 mb-6" style={{backgroundColor: 'var(--bg-secondary)'}}>
+      <div className="p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-6 bg-white dark:bg-black">
         <div className="flex flex-wrap gap-2">
           {[
             { id: 'profile', label: 'Profile', icon: User },
@@ -512,11 +512,11 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="p-6 rounded-lg border border-gray-300" style={{backgroundColor: 'var(--bg-secondary)'}}>
+      <div className="p-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-black">
         {activeTab === 'profile' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Profile Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Profile Information</h3>
               <button
                 onClick={() => setEditMode(!editMode)}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
@@ -529,7 +529,7 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Full Name</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Full Name</label>
                 {editMode ? (
                   <input
                     type="text"
@@ -783,34 +783,14 @@ const AdminManagementScreen: React.FC<AdminManagementScreenProps> = () => {
                   <div className="flex gap-4">
                     <button
                       onClick={() => handleExportData('json')}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
-                      style={{
-                        backgroundColor: 'var(--accent-primary)',
-                        color: 'var(--text-primary)'
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-hover)';
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-primary)';
-                      }}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors bg-transparent text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:opacity-80"
                     >
                       <Download className="w-4 h-4" />
                       Export as JSON
                     </button>
                     <button
                       onClick={() => handleExportData('csv')}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
-                      style={{
-                        backgroundColor: 'var(--accent-primary)',
-                        color: 'var(--text-primary)'
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-hover)';
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.target as HTMLButtonElement).style.backgroundColor = 'var(--accent-primary)';
-                      }}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors bg-transparent text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:opacity-80"
                     >
                       <Download className="w-4 h-4" />
                       Export as CSV

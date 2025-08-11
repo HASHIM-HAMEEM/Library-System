@@ -497,7 +497,7 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
     if (!screenContent) {
       console.warn('🔍 AdminDashboard: No screen content, showing fallback');
       return (
-        <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)'}}>
+        <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black text-gray-900 dark:text-white">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Dashboard Loading...</h1>
             <p className="mb-4">Active View: {activeView}</p>
@@ -508,7 +508,7 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
     }
     
     return (
-      <div className="min-h-screen flex flex-col" style={{backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)'}}>
+      <div className="min-h-screen flex flex-col bg-white dark:bg-black text-gray-900 dark:text-white">
         <div className="flex flex-1 relative">
           {/* Sidebar */}
           <Sidebar 
@@ -558,15 +558,14 @@ const logNavigate = (path: string) => console.log('Navigation:', path);
   } catch (error) {
     console.error('🚨 AdminDashboard: Critical error in main render:', error);
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: 'var(--error-color)', color: 'var(--text-primary)'}}>
+      <div className="min-h-screen flex items-center justify-center bg-red-600 text-white">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Dashboard Error</h1>
           <p className="mb-4">Something went wrong while loading the dashboard.</p>
           <p className="text-sm" style={{color: 'var(--text-muted)'}}>{error.message}</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="mt-4 px-4 py-2 rounded transition-colors"
-            style={{backgroundColor: 'var(--accent-primary)', color: 'var(--bg-primary)'}}
+            className="mt-4 px-4 py-2 rounded transition-colors bg-blue-600 hover:bg-blue-700 text-white"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'var(--accent-hover)';
             }}

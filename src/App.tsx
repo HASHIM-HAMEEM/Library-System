@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminQRScanner from './pages/AdminQRScanner';
 import AdminInvitePage from './pages/AdminInvitePage';
+import { runAppCheckDiagnostics, startAppCheckMonitoring } from './lib/appCheckDebug';
 
 
 
@@ -55,11 +56,34 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 function App() {
   const { loading, initialize } = useAuthStore();
   const initializeRef = useRef(false);
+  const appCheckInitRef = useRef(false);
 
   useEffect(() => {
     if (!initializeRef.current) {
       initializeRef.current = true;
       initialize();
+    }
+  }, []);
+
+  // Initialize App Check debugging in development
+  useEffect(() => {
+    if (!appCheckInitRef.current && (process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost')) {
+      appCheckInitRef.current = true;
+      
+      // Add global functions for debugging
+      (window as any).runAppCheckDiagnostics = runAppCheckDiagnostics;
+      (window as any).startAppCheckMonitoring = startAppCheckMonitoring;
+      
+      console.log('🔧 App Check debugging enabled');
+      console.log('📋 Available debug commands:');
+      console.log('   - runAppCheckDiagnostics() - Run comprehensive diagnostics');
+      console.log('   - startAppCheckMonitoring() - Start continuous monitoring');
+      
+      // Auto-run diagnostics after a short delay to let everything initialize
+      setTimeout(() => {
+        console.log('🚀 Running initial App Check diagnostics...');
+        runAppCheckDiagnostics();
+      }, 3000);
     }
   }, []);
 

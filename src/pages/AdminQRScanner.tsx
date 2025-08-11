@@ -186,8 +186,7 @@ export default function AdminQRScanner() {
                   </div>
                   <button
                     onClick={startScanning}
-                    className="w-full py-3 px-6 rounded-lg transition-colors font-semibold"
-                    style={{backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)'}}
+                    className="w-full py-3 px-6 rounded-lg transition-colors font-semibold bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
                   >
                     Start Scanner
                   </button>
@@ -281,7 +280,7 @@ export default function AdminQRScanner() {
 
             {/* Recent Scans */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Recent Scans</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Scans</h3>
               {recentScans.length > 0 ? (
                 <div className="space-y-3 max-h-96 overflow-y-auto">
                   {recentScans.map((scan) => (

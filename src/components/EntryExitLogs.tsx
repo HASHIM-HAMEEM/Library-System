@@ -160,8 +160,8 @@ const EntryExitLogs: React.FC = () => {
   const getStatusBadge = (status: string) => {
     const statusColors = {
       entry: 'bg-green-900 text-green-400',
-      exit: 'var(--text-secondary)',
-      invalid: 'bg-red-900 text-red-400',
+      exit: 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+      invalid: 'bg-red-990 text-red-400',
       expired: 'bg-yellow-900 text-yellow-400'
     };
 
@@ -183,57 +183,27 @@ const EntryExitLogs: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="rounded-lg p-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+      <div className="rounded-lg p-6 bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold" style={{color: 'var(--text-primary)'}}>Entry/Exit Logs</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Entry/Exit Logs</h2>
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
-              style={{
-                backgroundColor: 'var(--bg-tertiary)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.8';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
+              className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors bg-transparent text-gray-900 dark:text-white hover:opacity-80 border border-gray-200 dark:border-gray-700"
             >
               <Filter className="w-4 h-4" />
               <span>Filters</span>
             </button>
             <button
               onClick={exportToCSV}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
-              style={{
-                backgroundColor: 'var(--accent-color)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.8';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
+              className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors bg-transparent text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:opacity-80"
             >
               <Download className="w-4 h-4" />
               <span>Export CSV</span>
             </button>
             <button
               onClick={fetchLogs}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
-              style={{
-                backgroundColor: 'var(--bg-tertiary)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.8';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
+              className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors bg-transparent text-gray-800 dark:text-gray-200 hover:opacity-80 border border-gray-200 dark:border-gray-700"
             >
               <RefreshCw className="w-4 h-4" />
               <span>Refresh</span>
@@ -243,84 +213,46 @@ const EntryExitLogs: React.FC = () => {
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{color: 'var(--text-secondary)'}} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-700 dark:text-gray-300" />
           <input
             type="text"
             placeholder="Search by user name, email, or ID..."
             value={filters.searchTerm || ''}
             onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none"
-            style={{
-              backgroundColor: 'var(--bg-tertiary)',
-              border: '1px solid var(--border-color)',
-              color: 'var(--text-primary)'
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = 'var(--accent-color)';
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-color)';
-            }}
+            className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none bg-transparent border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-400"
           />
         </div>
       </div>
 
       {/* Filters Panel */}
       {showFilters && (
-        <div className="rounded-lg p-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
-          <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Filters</h3>
+        <div className="rounded-lg p-6 bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Filters</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Date From</label>
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Date From</label>
               <input
                 type="date"
                 value={filters.dateFrom || ''}
                 onChange={(e) => handleFilterChange('dateFrom', e.target.value)}
-                className="w-full px-3 py-2 rounded-lg focus:outline-none"
-                style={{
-                  backgroundColor: 'var(--bg-tertiary)',
-                  border: '1px solid var(--border-color)',
-                  color: 'var(--text-primary)'
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--accent-color)';
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--border-color)';
-                }}
+                className="w-full px-3 py-2 rounded-lg focus:outline-none bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-400"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Date To</label>
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Date To</label>
               <input
                 type="date"
                 value={filters.dateTo || ''}
                 onChange={(e) => handleFilterChange('dateTo', e.target.value)}
-                className="w-full px-3 py-2 rounded-lg focus:outline-none"
-                style={{
-                  backgroundColor: 'var(--bg-tertiary)',
-                  border: '1px solid var(--border-color)',
-                  color: 'var(--text-primary)'
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--accent-color)';
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--border-color)';
-                }}
+                className="w-full px-3 py-2 rounded-lg focus:outline-none bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-400"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Status</label>
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Status</label>
               <select
                 value={filters.status || ''}
                 onChange={(e) => handleFilterChange('status', e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none"
-              style={{
-                backgroundColor: 'var(--bg-tertiary)',
-                borderColor: 'var(--border-color)',
-                color: 'var(--text-primary)'
-              }}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-400"
               >
                 <option value="">All Statuses</option>
                 <option value="entry">Entry</option>
@@ -330,51 +262,26 @@ const EntryExitLogs: React.FC = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text-secondary)'}}>Location</label>
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Location</label>
               <input
                 type="text"
                 placeholder="e.g., main_entrance"
                 value={filters.location || ''}
                 onChange={(e) => handleFilterChange('location', e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none"
-              style={{
-                backgroundColor: 'var(--bg-tertiary)',
-                borderColor: 'var(--border-color)',
-                color: 'var(--text-primary)'
-              }}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-400"
               />
             </div>
           </div>
           <div className="flex items-center space-x-3 mt-4">
             <button
               onClick={applyDatabaseFilters}
-              className="px-4 py-2 rounded-lg transition-colors"
-              style={{
-                backgroundColor: 'var(--accent-color)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.8';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
+              className="px-4 py-2 rounded-lg transition-colors bg-blue-600 dark:bg-blue-500 text-white hover:opacity-80 border border-blue-600 dark:border-blue-500"
             >
               Apply Filters
             </button>
             <button
               onClick={clearFilters}
-              className="px-4 py-2 rounded-lg transition-colors"
-              style={{
-                backgroundColor: 'var(--bg-tertiary)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.8';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
+              className="px-4 py-2 rounded-lg transition-colors bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:opacity-80 border border-gray-200 dark:border-gray-700"
             >
               Clear Filters
             </button>
@@ -383,11 +290,11 @@ const EntryExitLogs: React.FC = () => {
       )}
 
       {/* Logs Table */}
-      <div className="rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)' }}>
-        <div className="p-6 border-b" style={{ borderColor: 'var(--border-color)' }}>
+      <div className="rounded-lg overflow-hidden bg-white dark:bg-black border border-gray-200 dark:border-gray-700">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold" style={{color: 'var(--text-primary)'}}>Scan Logs</h3>
-            <div className="text-sm" style={{color: 'var(--text-secondary)'}}>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Scan Logs</h3>
+            <div className="text-sm text-gray-700 dark:text-gray-300">
               Showing {filteredLogs.length} of {pagination.totalItems} entries
             </div>
           </div>
@@ -395,55 +302,40 @@ const EntryExitLogs: React.FC = () => {
 
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
-            <RefreshCw className="w-8 h-8 animate-spin" style={{color: 'var(--text-primary)'}} />
+            <RefreshCw className="w-8 h-8 animate-spin text-gray-900 dark:text-white" />
           </div>
         ) : filteredLogs.length === 0 ? (
           <div className="text-center py-12">
-            <p style={{color: 'var(--text-secondary)'}}>No logs found</p>
+            <p className="text-gray-700 dark:text-gray-300">No logs found</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+              <thead className="bg-gray-100 dark:bg-gray-800">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
-                    User
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{color: 'var(--text-secondary)'}}>
-                    Entry Time
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{color: 'var(--text-secondary)'}}>
-                    Exit Time
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{color: 'var(--text-secondary)'}}>
-                    Duration
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{color: 'var(--text-secondary)'}}>
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{color: 'var(--text-secondary)'}}>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black">USER</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black">ENTRY TIME</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black">EXIT TIME</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black">DURATION</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black">STATUS</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black">
                     Location
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y" style={{ borderColor: 'var(--border-color)' }}>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredLogs.map((log, index) => {
                   const user = (log as any).user;
                   return (
-                    <tr key={`${log.user_id}-${log.scan_time}-${index}`} className="transition-colors" onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}>
+                    <tr key={`${log.user_id}-${log.scan_time}-${index}`} className="transition-colors hover:bg-gray-50 dark:hover:bg-gray-800">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center space-x-3">
-                          <User className="w-8 h-8" style={{color: 'var(--text-secondary)'}} />
+                          <User className="w-8 h-8 text-gray-700 dark:text-gray-300" />
                           <div>
-                            <p className="font-medium" style={{color: 'var(--text-primary)'}}>
+                            <p className="font-medium text-gray-900 dark:text-white">
                               {log.user_name || 'Unknown User'}
                             </p>
-                            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
+                            <p className="text-sm text-gray-700 dark:text-gray-300">
                               {log.user_email || log.user_id}
                             </p>
                           </div>
@@ -451,37 +343,37 @@ const EntryExitLogs: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center space-x-2">
-                          <Calendar className="w-4 h-4" style={{color: 'var(--text-secondary)'}} />
-                          <span className="text-sm" style={{color: 'var(--text-primary)'}}>
+                          <Calendar className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                          <span className="text-sm text-gray-900 dark:text-white">
                             {log.scan_type === 'entry' ? formatDateTime(log.scan_time) : 'N/A'}
                           </span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
-                          <Calendar className="w-4 h-4" style={{color: 'var(--text-secondary)'}} />
-                          <span className="text-sm" style={{color: 'var(--text-primary)'}}>
-                            {log.scan_type === 'exit' ? formatDateTime(log.scan_time) : 'N/A'}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
-                          <Clock className="w-4 h-4" style={{color: 'var(--text-secondary)'}} />
-                          <span className="text-sm" style={{color: 'var(--text-primary)'}}>
-                            N/A
-                          </span>
-                        </div>
-                      </td>
+                          <div className="flex items-center space-x-2">
+                            <Calendar className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                            <span className="text-sm text-gray-900 dark:text-white">
+                              {log.scan_type === 'exit' ? formatDateTime(log.scan_time) : 'N/A'}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center space-x-2">
+                            <Clock className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                            <span className="text-sm text-gray-900 dark:text-white">
+                              N/A
+                            </span>
+                          </div>
+                        </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {getStatusBadge(log.status)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
-                          <MapPin className="w-4 h-4" style={{color: 'var(--text-secondary)'}} />
-                          <span className="text-sm" style={{color: 'var(--text-primary)'}}>{log.location}</span>
-                        </div>
-                      </td>
+                          <div className="flex items-center space-x-2">
+                            <MapPin className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                            <span className="text-sm text-gray-900 dark:text-white">{log.location}</span>
+                          </div>
+                        </td>
                     </tr>
                   );
                 })}
@@ -492,17 +384,16 @@ const EntryExitLogs: React.FC = () => {
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="px-6 py-4 border-t" style={{ borderColor: 'var(--border-color)' }}>
+          <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
-              <div className="text-sm" style={{color: 'var(--text-secondary)'}}>
+              <div className="text-sm text-gray-700 dark:text-gray-300">
                 Page {pagination.currentPage} of {pagination.totalPages}
               </div>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => changePage(pagination.currentPage - 1)}
                   disabled={pagination.currentPage === 1}
-                  className="p-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{color: 'var(--text-secondary)'}}
+                  className="p-2 disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -516,11 +407,11 @@ const EntryExitLogs: React.FC = () => {
                     <button
                       key={pageNum}
                       onClick={() => changePage(pageNum)}
-                      className="px-3 py-1 rounded text-sm"
-                       style={{
-                         backgroundColor: pageNum === pagination.currentPage ? 'var(--accent-color)' : 'transparent',
-                         color: pageNum === pagination.currentPage ? 'var(--text-primary)' : 'var(--text-secondary)'
-                       }}
+                      className={`px-3 py-1 rounded text-sm transition-colors ${
+                        pageNum === pagination.currentPage
+                          ? 'bg-blue-600 dark:bg-blue-500 text-white'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      }`}
                     >
                       {pageNum}
                     </button>
@@ -530,8 +421,7 @@ const EntryExitLogs: React.FC = () => {
                 <button
                   onClick={() => changePage(pagination.currentPage + 1)}
                   disabled={pagination.currentPage === pagination.totalPages}
-                  className="p-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{color: 'var(--text-secondary)'}}
+                  className="p-2 disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>

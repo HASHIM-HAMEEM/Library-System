@@ -22,7 +22,7 @@ import {
   deleteDoc,
   serverTimestamp
 } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
+import { auth, db, isAppCheckWorking, logAppCheckStatus } from '../lib/firebase';
 import {
   checkLoginRateLimit,
   recordFailedLogin,
@@ -34,6 +34,7 @@ import {
   logSecurityEvent,
 } from '../utils/securityMiddleware';
 import { logger } from '../utils/logger';
+import DynamicQRService from '../lib/dynamicQRService';
 
 interface UserProfile {
   id: string;
@@ -211,6 +212,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const sanitizedEmail = sanitizeInput(email);
       const sanitizedPassword = sanitizeInput(password);
       
+      // Check App Check status before proceeding
+      console.log('🔍 Checking App Check status before login...');
+      const appCheckWorking = await isAppCheckWorking();
+      console.log('🔍 App Check status:', appCheckWorking ? '✅ Working' : '⚠️ Not working');
+      
+      if (!appCheckWorking) {
+        console.warn('⚠️ App Check not working - proceeding with authentication anyway in development mode');
+        await logAppCheckStatus();
+      }
+      
       // Check rate limiting
       const rateLimitCheck = checkLoginRateLimit(sanitizedEmail);
       if (!rateLimitCheck) {
@@ -223,8 +234,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         return { error: 'Invalid session. Please refresh the page.' };
       }
       
+      console.log('🔐 Attempting Firebase authentication...');
       const userCredential = await signInWithEmailAndPassword(auth, sanitizedEmail, sanitizedPassword);
       const user = userCredential.user;
+      console.log('✅ Firebase authentication successful');
       
       // Clear failed login attempts on successful login
       clearFailedLogins(sanitizedEmail);
@@ -242,18 +255,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       
       // Set the user immediately and fetch profile
       set({ user });
+      
+      console.log('📋 Fetching user profile...');
       await get().fetchUserProfile();
+      console.log('✅ User profile fetched successfully');
       
       await logSecurityEvent('login_success', {
         userId: user.uid,
         email: sanitizedEmail,
         timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent
+        userAgent: navigator.userAgent,
+        appCheckWorking
       });
       
+      console.log('🎉 Login completed successfully');
       return {};
     } catch (error: any) {
       logger.error('auth', 'Sign in error', error);
+      console.error('❌ Login failed:', error);
       
       // Record failed login attempt
       recordFailedLogin(email);
@@ -274,6 +293,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         errorMessage = 'Invalid email address';
       } else if (error.code === 'auth/user-disabled') {
         errorMessage = 'This account has been disabled';
+      } else if (error.code === 'auth/network-request-failed') {
+        errorMessage = 'Network error. Please check your connection and try again.';
+      } else if (error.message?.includes('App Check')) {
+        errorMessage = 'Authentication service temporarily unavailable. Please try again.';
+        console.log('💡 This error is related to App Check. The debug token may need to be registered.');
       }
       
       return { error: errorMessage };
@@ -510,13 +534,52 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         updates.is_active = true;
         updates.approved_by = user.uid;
         updates.approved_at = new Date().toISOString();
+        
+        // Set default subscription if not already set
+        if (!updates.subscription_status) {
+          updates.subscription_status = 'active';
+        }
+        if (!updates.subscription_start) {
+          updates.subscription_start = new Date().toISOString();
+        }
+        if (!updates.subscription_end) {
+          // Default to 1 year subscription
+          const oneYearFromNow = new Date();
+          oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+          updates.subscription_end = oneYearFromNow.toISOString();
+        }
       }
       
       if (action === 'reject' && reason) {
         updates.rejection_reason = reason;
       }
       
+      // Update user profile
       await updateDoc(doc(db, 'user_profiles', userId), updates);
+      
+      // Handle QR code generation/deactivation based on action
+      if (action === 'approve') {
+        try {
+          // Generate initial dynamic QR code for approved user
+          const qrResult = await DynamicQRService.generateInitialQRCode(userId);
+          if (!qrResult.success) {
+            logger.error('qr', 'Failed to generate QR code for approved user', { userId, error: qrResult.error });
+            // Don't fail the approval process if QR generation fails
+          } else {
+            logger.info('qr', 'QR code generated for approved user', { userId, qrId: qrResult.qrId });
+          }
+        } catch (qrError) {
+          logger.error('qr', 'Error generating QR code for approved user', { userId, error: qrError });
+        }
+      } else if (action === 'reject') {
+        try {
+          // Deactivate QR codes for rejected user
+          await DynamicQRService.deactivateUserQRCodes(userId);
+          logger.info('qr', 'QR codes deactivated for rejected user', { userId });
+        } catch (qrError) {
+          logger.error('qr', 'Error deactivating QR codes for rejected user', { userId, error: qrError });
+        }
+      }
       
       return {};
     } catch (error: any) {
